@@ -72,7 +72,7 @@ class GuiTests(unittest.TestCase):
         w.usb_toggle.setChecked(True)
         w.usb_toggle.blockSignals(False)
         tracker = USBPresence()
-        with patch.object(w, 'start') as start:
+        with patch('monitor_switch.gui.sys.platform', 'darwin'), patch.object(w, 'start') as start:
             for count in [0,1,1,1]:
                 w.usb_observed(tracker.observe(count))
             w.usb_observed(tracker.observe(None,error='query failed'))

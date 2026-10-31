@@ -177,6 +177,8 @@ def extract_archive(archive, destination, *, key):
             raise ValueError('The expanded update is too large.')
         seen, links = set(), []
         for entry in entries:
+            if '\\' in entry.orig_filename or '\x00' in entry.orig_filename:
+                raise ValueError('Unsafe raw archive path.')
             name = entry.filename.rstrip('/')
             parts = name.split('/')
             if (not name or '\\' in name or '\x00' in name or parts[0] != root

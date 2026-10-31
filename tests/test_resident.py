@@ -33,6 +33,9 @@ class FakeWatcher:
 
 class ServiceTests(unittest.TestCase):
     def setUp(self):
+        hosts = patch('monitor_switch.service.network_hosts', return_value=['127.0.0.1'])
+        hosts.start()
+        self.addCleanup(hosts.stop)
         self.directory = tempfile.TemporaryDirectory()
         self.root = Path(self.directory.name)
         profiles = json.loads((Path(__file__).resolve().parents[1]/'relay-monitors.example.json').read_text())

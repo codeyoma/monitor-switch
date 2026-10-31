@@ -35,7 +35,9 @@ class UpdateTests(unittest.TestCase):
         archive = self.root/'fixture.zip'
         with zipfile.ZipFile(archive, 'w') as stream:
             for name, payload in (names or {'app/Monitor Switch.exe': b'fixture', 'app/_internal/library': b'library'}).items():
-                stream.writestr(name, payload)
+                entry = zipfile.ZipInfo(name)
+                entry.filename = name  # Keep raw malicious backslashes on Windows too.
+                stream.writestr(entry, payload)
         return archive
 
     def release(self, archive, version='1.2.3'):
