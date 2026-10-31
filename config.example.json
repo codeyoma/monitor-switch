@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "monitors": [
+    {
+      "label": "Dell P2425",
+      "id": "",
+      "enabled": false,
+      "mode": "standard",
+      "mac": null,
+      "windows": null
+    },
+    {
+      "label": "LG UltraGear",
+      "id": "",
+      "enabled": false,
+      "mode": "standard",
+      "mac": null,
+      "windows": null
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "monitors": [
+    {"role": "dell", "label": "Dell P2425", "id": "REPLACE_WITH_DELL_WINDOWS_ID", "mode": "standard", "mac": 17, "windows": 15},
+    {"role": "lg", "label": "LG UltraGear", "id": "REPLACE_WITH_LG_WINDOWS_ID", "mode": "lg-alt", "mac": 144, "windows": 208}
+  ]
+}

@@ -1,0 +1,4 @@
+# Essentials contains QtCore, QtGui and QtWidgets; no WebEngine download needed.
+PySide6-Essentials==6.12.0
+cryptography==50.0.2
+certifi==2026.10.23
