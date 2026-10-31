@@ -1,0 +1,3510 @@
+{
+  "version": "2.21",
+  "children": [
+    {
+      "type": "frame",
+      "id": "SjT1E",
+      "x": 0,
+      "y": 0,
+      "name": "01 · Quick panel · light",
+      "clip": true,
+      "width": 320,
+      "fill": "$material",
+      "cornerRadius": 16,
+      "stroke": "$line",
+      "strokeWidth": 0.5,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#0000002E",
+        "offset": {
+          "x": 0,
+          "y": 12
+        },
+        "blur": 36
+      },
+      "layout": "vertical",
+      "gap": 8,
+      "padding": 10,
+      "children": [
+        {
+          "type": "frame",
+          "id": "nZWWR",
+          "name": "Panel header",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": [
+            4,
+            6,
+            2,
+            6
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "n58PI",
+              "name": "Product",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Monitor Switch",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "700"
+            },
+            {
+              "type": "icon",
+              "id": "ZlVuy",
+              "name": "Open settings",
+              "width": 15,
+              "height": 15,
+              "icon": "settings",
+              "library": "lucide",
+              "fill": "$secondary"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KGyPT",
+          "name": "Destination controls",
+          "width": "fill_container",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Q3rd2",
+              "name": "Mac destination",
+              "width": "fill_container",
+              "fill": "$module",
+              "cornerRadius": 12,
+              "gap": 9,
+              "padding": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "wqEFN",
+                  "name": "Mac symbol",
+                  "width": 30,
+                  "height": 30,
+                  "fill": "$control",
+                  "cornerRadius": 15,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "fcXjX",
+                      "name": "Mac icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "laptop",
+                      "library": "lucide",
+                      "fill": "$ink"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "yO9n7",
+                  "name": "Mac text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "k3kgUt",
+                      "name": "Mac label",
+                      "fill": "$ink",
+                      "content": "Mac",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "HN62f",
+                      "name": "Mac status",
+                      "fill": "$secondary",
+                      "content": "전환하기",
+                      "fontFamily": "$font",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "S8ibU0",
+              "name": "Windows destination",
+              "width": "fill_container",
+              "fill": "$module",
+              "cornerRadius": 12,
+              "gap": 9,
+              "padding": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "s8D7G",
+                  "name": "Windows symbol",
+                  "width": 30,
+                  "height": 30,
+                  "fill": "$accent",
+                  "cornerRadius": 15,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "vm4DE",
+                      "name": "Windows icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "monitor",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dwAWx",
+                  "name": "Windows text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FG08Z",
+                      "name": "Windows label",
+                      "fill": "$ink",
+                      "content": "Windows",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LpEJ8",
+                      "name": "Windows status",
+                      "fill": "$secondary",
+                      "content": "마지막 전환",
+                      "fontFamily": "$font",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "n2b6Q",
+          "name": "Included monitors",
+          "width": "fill_container",
+          "fill": "$module",
+          "cornerRadius": 12,
+          "layout": "vertical",
+          "gap": 2,
+          "padding": [
+            8,
+            6
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ycOoz",
+              "name": "Monitors header",
+              "width": "fill_container",
+              "padding": [
+                0,
+                6,
+                4,
+                6
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gQ2V8",
+                  "name": "Monitors label",
+                  "fill": "$secondary",
+                  "content": "함께 전환할 모니터",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LH2fz",
+              "name": "Dell P2425 row",
+              "width": "fill_container",
+              "gap": 9,
+              "padding": [
+                5,
+                6
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "O8reQT",
+                  "name": "Dell P2425 symbol",
+                  "width": 24,
+                  "height": 24,
+                  "fill": "$accent",
+                  "cornerRadius": 12,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "eNzIm",
+                      "name": "Dell P2425 icon",
+                      "width": 12,
+                      "height": 12,
+                      "icon": "monitor",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Q0srwp",
+                  "name": "Dell P2425 name",
+                  "fill": "$ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dell P2425",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon",
+                  "id": "v6NIhj",
+                  "name": "Dell P2425 included",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$accent"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ZIVfz",
+              "name": "LG UltraGear row",
+              "width": "fill_container",
+              "gap": 9,
+              "padding": [
+                5,
+                6
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RUjDG",
+                  "name": "LG UltraGear symbol",
+                  "width": 24,
+                  "height": 24,
+                  "fill": "$accent",
+                  "cornerRadius": 12,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "r6hVT",
+                      "name": "LG UltraGear icon",
+                      "width": 12,
+                      "height": 12,
+                      "icon": "monitor",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "MhOt6",
+                  "name": "LG UltraGear name",
+                  "fill": "$ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "LG UltraGear",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon",
+                  "id": "vIjLX",
+                  "name": "LG UltraGear included",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$accent"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wMoZ6",
+          "name": "USB automatic switch",
+          "width": "fill_container",
+          "fill": "$module",
+          "cornerRadius": 12,
+          "gap": 12,
+          "padding": [
+            10,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "T9uc0X",
+              "name": "USB automatic labels",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "KK9kz",
+                  "name": "Automatic label",
+                  "fill": "$ink",
+                  "content": "USB 버튼 자동 전환",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "v72CFJ",
+                  "name": "Automatic help",
+                  "fill": "$secondary",
+                  "content": "HiFime 오디오를 따라 전환",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "m9w2IS",
+              "name": "Automatic toggle",
+              "width": 32,
+              "height": 19,
+              "fill": "$accent",
+              "cornerRadius": 10,
+              "padding": 2,
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "f6UMz",
+                  "name": "Automatic toggle thumb",
+                  "fill": "#FFFFFF",
+                  "width": 15,
+                  "height": 15,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000040",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 3
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "K9HQg",
+          "name": "Panel footer",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": [
+            4,
+            6
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "f12akT",
+              "name": "Open full window",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "설정 및 상태…",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "icon",
+              "id": "j1zwKw",
+              "name": "Open chevron",
+              "width": 14,
+              "height": 14,
+              "icon": "chevron-right",
+              "library": "lucide",
+              "fill": "$secondary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "hTyIX",
+      "x": 408,
+      "y": 0,
+      "name": "02 · Quick panel · dark",
+      "theme": {
+        "mode": "dark"
+      },
+      "clip": true,
+      "width": 320,
+      "fill": "$material",
+      "cornerRadius": 16,
+      "stroke": "$line",
+      "strokeWidth": 0.5,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000066",
+        "offset": {
+          "x": 0,
+          "y": 12
+        },
+        "blur": 36
+      },
+      "layout": "vertical",
+      "gap": 8,
+      "padding": 10,
+      "children": [
+        {
+          "type": "frame",
+          "id": "l7hBra",
+          "name": "Panel header",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": [
+            4,
+            6,
+            2,
+            6
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "f9Kg5",
+              "name": "Product",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Monitor Switch",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "700"
+            },
+            {
+              "type": "icon",
+              "id": "KWE9i",
+              "name": "Open settings",
+              "width": 15,
+              "height": 15,
+              "icon": "settings",
+              "library": "lucide",
+              "fill": "$secondary"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mTAS8",
+          "name": "Destination controls",
+          "width": "fill_container",
+          "gap": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "v75q1",
+              "name": "Mac destination",
+              "width": "fill_container",
+              "fill": "$module",
+              "cornerRadius": 12,
+              "gap": 9,
+              "padding": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "E5GxQh",
+                  "name": "Mac symbol",
+                  "width": 30,
+                  "height": 30,
+                  "fill": "$control",
+                  "cornerRadius": 15,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "axHoC",
+                      "name": "Mac icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "laptop",
+                      "library": "lucide",
+                      "fill": "$ink"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Q1mx3",
+                  "name": "Mac text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "v8YEDP",
+                      "name": "Mac label",
+                      "fill": "$ink",
+                      "content": "Mac",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "n0Nbri",
+                      "name": "Mac status",
+                      "fill": "$secondary",
+                      "content": "전환하기",
+                      "fontFamily": "$font",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Qi4xv",
+              "name": "Windows destination",
+              "width": "fill_container",
+              "fill": "$module",
+              "cornerRadius": 12,
+              "gap": 9,
+              "padding": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rzVns",
+                  "name": "Windows symbol",
+                  "width": 30,
+                  "height": 30,
+                  "fill": "$accent",
+                  "cornerRadius": 15,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "txWF1",
+                      "name": "Windows icon",
+                      "width": 15,
+                      "height": 15,
+                      "icon": "monitor",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PGZcM",
+                  "name": "Windows text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 1,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dSrhX",
+                      "name": "Windows label",
+                      "fill": "$ink",
+                      "content": "Windows",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uV6Ap",
+                      "name": "Windows status",
+                      "fill": "$secondary",
+                      "content": "마지막 전환",
+                      "fontFamily": "$font",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xBQjm",
+          "name": "Included monitors",
+          "width": "fill_container",
+          "fill": "$module",
+          "cornerRadius": 12,
+          "layout": "vertical",
+          "gap": 2,
+          "padding": [
+            8,
+            6
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "HGKQS",
+              "name": "Monitors header",
+              "width": "fill_container",
+              "padding": [
+                0,
+                6,
+                4,
+                6
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xBzWZ",
+                  "name": "Monitors label",
+                  "fill": "$secondary",
+                  "content": "함께 전환할 모니터",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RRizU",
+              "name": "Dell P2425 row",
+              "width": "fill_container",
+              "gap": 9,
+              "padding": [
+                5,
+                6
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "S8l39",
+                  "name": "Dell P2425 symbol",
+                  "width": 24,
+                  "height": 24,
+                  "fill": "$accent",
+                  "cornerRadius": 12,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "fAg5A",
+                      "name": "Dell P2425 icon",
+                      "width": 12,
+                      "height": 12,
+                      "icon": "monitor",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "MmqIa",
+                  "name": "Dell P2425 name",
+                  "fill": "$ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Dell P2425",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon",
+                  "id": "Csnps",
+                  "name": "Dell P2425 included",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$accent"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "n9WPS",
+              "name": "LG UltraGear row",
+              "width": "fill_container",
+              "gap": 9,
+              "padding": [
+                5,
+                6
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "w0cyWn",
+                  "name": "LG UltraGear symbol",
+                  "width": 24,
+                  "height": 24,
+                  "fill": "$accent",
+                  "cornerRadius": 12,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "EeaKQ",
+                      "name": "LG UltraGear icon",
+                      "width": 12,
+                      "height": 12,
+                      "icon": "monitor",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "AWOc8",
+                  "name": "LG UltraGear name",
+                  "fill": "$ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "LG UltraGear",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon",
+                  "id": "rrmjH",
+                  "name": "LG UltraGear included",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$accent"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wpPx4",
+          "name": "USB automatic switch",
+          "width": "fill_container",
+          "fill": "$module",
+          "cornerRadius": 12,
+          "gap": 12,
+          "padding": [
+            10,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "At0fj",
+              "name": "USB automatic labels",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mEsNv",
+                  "name": "Automatic label",
+                  "fill": "$ink",
+                  "content": "USB 버튼 자동 전환",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "NBTEt",
+                  "name": "Automatic help",
+                  "fill": "$secondary",
+                  "content": "HiFime 오디오를 따라 전환",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fZcng",
+              "name": "Automatic toggle",
+              "width": 32,
+              "height": 19,
+              "fill": "$accent",
+              "cornerRadius": 10,
+              "padding": 2,
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "BvV3t",
+                  "name": "Automatic toggle thumb",
+                  "fill": "#FFFFFF",
+                  "width": 15,
+                  "height": 15,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000040",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 3
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xfd7U",
+          "name": "Panel footer",
+          "width": "fill_container",
+          "gap": 8,
+          "padding": [
+            4,
+            6
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "lBciq",
+              "name": "Open full window",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "설정 및 상태…",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "icon",
+              "id": "EXP5C",
+              "name": "Open chevron",
+              "width": 14,
+              "height": 14,
+              "icon": "chevron-right",
+              "library": "lucide",
+              "fill": "$secondary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "M6LoOL",
+      "x": 832,
+      "y": 0,
+      "name": "03 · Desktop · Switch",
+      "clip": true,
+      "width": 680,
+      "fill": "$canvas",
+      "cornerRadius": 12,
+      "stroke": "$line",
+      "strokeWidth": 0.5,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000038",
+        "offset": {
+          "x": 0,
+          "y": 20
+        },
+        "blur": 50
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "CYHCP",
+          "name": "Toolbar",
+          "width": "fill_container",
+          "height": 52,
+          "stroke": "$line",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Xfd3B",
+              "name": "Toolbar leading",
+              "width": "fill_container",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nrh1T",
+                  "name": "Window controls",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "sJ4Db",
+                      "name": "Close",
+                      "fill": "#FF5F57",
+                      "width": 12,
+                      "height": 12,
+                      "stroke": "#0000001A",
+                      "strokeWidth": 0.5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "ZjvmU",
+                      "name": "Minimize",
+                      "fill": "#FEBC2E",
+                      "width": 12,
+                      "height": 12,
+                      "stroke": "#0000001A",
+                      "strokeWidth": 0.5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "USJTd",
+                      "name": "Zoom",
+                      "fill": "#28C840",
+                      "width": 12,
+                      "height": 12,
+                      "stroke": "#0000001A",
+                      "strokeWidth": 0.5
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "yLOn5",
+                  "name": "Window title",
+                  "fill": "$ink",
+                  "content": "Monitor Switch",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "wGDKS",
+              "name": "Window navigation",
+              "fill": "$control",
+              "cornerRadius": 7,
+              "padding": 2,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fuvHH",
+                  "name": "화면 전환 tab",
+                  "fill": "$surface",
+                  "cornerRadius": 5,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000026",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "padding": [
+                    3,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nWkXb",
+                      "name": "화면 전환 tab label",
+                      "fill": "$ink",
+                      "content": "화면 전환",
+                      "fontFamily": "$font",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "d2vLoV",
+                  "name": "모니터 설정 tab",
+                  "cornerRadius": 5,
+                  "padding": [
+                    3,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qRFms",
+                      "name": "모니터 설정 tab label",
+                      "fill": "$ink",
+                      "content": "모니터 설정",
+                      "fontFamily": "$font",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Aqs7E",
+                  "name": "활동 기록 tab",
+                  "cornerRadius": 5,
+                  "padding": [
+                    3,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Y1FGV",
+                      "name": "활동 기록 tab label",
+                      "fill": "$ink",
+                      "content": "활동 기록",
+                      "fontFamily": "$font",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "G2eHm",
+              "name": "Toolbar trailing",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "fZwWK",
+                  "name": "Open quick panel",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "fill": "$secondary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nxaRb",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            28,
+            28,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "KAk5t",
+              "name": "Heading",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pztDQ",
+                  "name": "Question",
+                  "fill": "$ink",
+                  "content": "어디로 전환할까요?",
+                  "fontFamily": "$font",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "TLepJ",
+                  "name": "Destination helper",
+                  "fill": "$secondary",
+                  "content": "포함된 모니터의 입력을 함께 바꿉니다.",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "An67Q",
+              "name": "Main switch buttons",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "BjNHc",
+                  "name": "Mac으로 전환",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 12,
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VZCht",
+                      "name": "Mac으로 전환 top",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "OfXeF",
+                          "name": "Mac으로 전환 symbol",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$control",
+                          "cornerRadius": 18,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "lS1mn",
+                              "name": "Mac으로 전환 glyph",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "laptop",
+                              "library": "lucide",
+                              "fill": "$ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "J3un7",
+                          "name": "Mac으로 전환 shortcut",
+                          "fill": "$secondary",
+                          "content": "⌃⌥⌘M",
+                          "fontFamily": "$font",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z8LdE",
+                      "name": "Mac으로 전환 text",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "N7Jk0",
+                          "name": "Mac으로 전환 title",
+                          "fill": "$ink",
+                          "content": "Mac으로 전환",
+                          "fontFamily": "$font",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "KuhUm",
+                          "name": "Mac으로 전환 ports",
+                          "fill": "$secondary",
+                          "content": "Dell HDMI 1 · LG HDMI 1",
+                          "fontFamily": "$font",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z2UIdI",
+                  "name": "Windows로 전환",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 12,
+                  "stroke": "$accent",
+                  "strokeWidth": 2,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "TiC4o",
+                      "name": "Windows로 전환 top",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Y4Qg4",
+                          "name": "Windows로 전환 symbol",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "$accent",
+                          "cornerRadius": 18,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Frwt9",
+                              "name": "Windows로 전환 glyph",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "monitor",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "kReQL",
+                          "name": "Windows로 전환 selected",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "circle-check",
+                          "library": "lucide",
+                          "fill": "$accent"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hdXgr",
+                      "name": "Windows로 전환 text",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tTmi0",
+                          "name": "Windows로 전환 title",
+                          "fill": "$ink",
+                          "content": "Windows로 전환",
+                          "fontFamily": "$font",
+                          "fontSize": 15,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XjvSV",
+                          "name": "Windows로 전환 ports",
+                          "fill": "$secondary",
+                          "content": "Dell DP 1 · LG DP 1",
+                          "fontFamily": "$font",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xYxJC",
+              "name": "전환할 모니터 group",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "v62Nn4",
+                  "name": "전환할 모니터 header",
+                  "padding": [
+                    0,
+                    4
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fgUsm",
+                      "name": "전환할 모니터 title",
+                      "fill": "$ink",
+                      "content": "전환할 모니터",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LoZOv",
+                  "name": "전환할 모니터 box",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 10,
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "msjMm",
+                      "name": "Dell P2425 row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "O5w3r",
+                          "name": "Dell P2425 icon",
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$accent",
+                          "cornerRadius": 6,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "u0caB",
+                              "name": "Dell P2425 icon glyph",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "monitor",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZQ0Iq",
+                          "name": "Dell P2425 title",
+                          "fill": "$ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Dell P2425",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "qihRA",
+                          "name": "Dell P2425 ports",
+                          "fill": "$secondary",
+                          "content": "Mac HDMI 1 · Windows DP 1",
+                          "fontFamily": "$font",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "DghCd",
+                          "name": "Dell P2425 included",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$accent"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "X4wIeU",
+                      "name": "Monitor divider",
+                      "fill": "$line",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "J78Eoa",
+                      "name": "LG UltraGear row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "C8R9W",
+                          "name": "LG UltraGear icon",
+                          "width": 24,
+                          "height": 24,
+                          "fill": "$accent",
+                          "cornerRadius": 6,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "XsJt4",
+                              "name": "LG UltraGear icon glyph",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "monitor",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "vQjWm",
+                          "name": "LG UltraGear title",
+                          "fill": "$ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "LG UltraGear",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "c28TU",
+                          "name": "LG UltraGear ports",
+                          "fill": "$secondary",
+                          "content": "Mac HDMI 1 · Windows DP 1",
+                          "fontFamily": "$font",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "MtfUz",
+                          "name": "LG UltraGear included",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$accent"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OLheL",
+              "name": "일반 group",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cSzyT",
+                  "name": "일반 header",
+                  "padding": [
+                    0,
+                    4
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ijSM9",
+                      "name": "일반 title",
+                      "fill": "$ink",
+                      "content": "일반",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YP64w",
+                  "name": "일반 box",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 10,
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "EvBn7",
+                      "name": "USB 버튼 자동 전환 preference",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vvz0Y",
+                          "name": "USB 버튼 자동 전환 icon",
+                          "width": 24,
+                          "height": 24,
+                          "fill": "#FF9500",
+                          "cornerRadius": 6,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "bgTYh",
+                              "name": "USB 버튼 자동 전환 icon glyph",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "usb",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "x5raff",
+                          "name": "USB 버튼 자동 전환 copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "NJAwq",
+                              "name": "USB 버튼 자동 전환 heading",
+                              "fill": "$ink",
+                              "content": "USB 버튼 자동 전환",
+                              "fontFamily": "$font",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "cl6A2",
+                              "name": "USB 버튼 자동 전환 help",
+                              "fill": "$secondary",
+                              "content": "HiFime 오디오가 연결된 컴퓨터를 따라갑니다.",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "k7Vl7U",
+                          "name": "USB 버튼 자동 전환 toggle",
+                          "width": 32,
+                          "height": 19,
+                          "fill": "$accent",
+                          "cornerRadius": 10,
+                          "padding": 2,
+                          "justifyContent": "end",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "KYW6x",
+                              "name": "USB 버튼 자동 전환 toggle thumb",
+                              "fill": "#FFFFFF",
+                              "width": 15,
+                              "height": 15,
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#00000040",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 1
+                                },
+                                "blur": 3
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "w1Qgh",
+                      "name": "Preference divider",
+                      "fill": "$line",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MViAK",
+                      "name": "로그인 시 자동 실행 preference",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "S1Hvpn",
+                          "name": "로그인 시 자동 실행 icon",
+                          "width": 24,
+                          "height": 24,
+                          "fill": "#8E8E93",
+                          "cornerRadius": 6,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "eSrPE",
+                              "name": "로그인 시 자동 실행 icon glyph",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "power",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Uyfmu",
+                          "name": "로그인 시 자동 실행 copy",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "N7v0Q",
+                              "name": "로그인 시 자동 실행 heading",
+                              "fill": "$ink",
+                              "content": "로그인 시 자동 실행",
+                              "fontFamily": "$font",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rkIzd",
+                              "name": "로그인 시 자동 실행 help",
+                              "fill": "$secondary",
+                              "content": "창 없이 메뉴 막대 또는 트레이에서 시작합니다.",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "i8NmAV",
+                          "name": "로그인 시 자동 실행 toggle",
+                          "width": 32,
+                          "height": 19,
+                          "fill": "$accent",
+                          "cornerRadius": 10,
+                          "padding": 2,
+                          "justifyContent": "end",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "X3MceP",
+                              "name": "로그인 시 자동 실행 toggle thumb",
+                              "fill": "#FFFFFF",
+                              "width": 15,
+                              "height": 15,
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#00000040",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 1
+                                },
+                                "blur": 3
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NEthO",
+              "name": "Connection actions",
+              "width": "fill_container",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IIK8b",
+                  "name": "Pairing button",
+                  "fill": "$surface",
+                  "cornerRadius": 6,
+                  "stroke": "$line",
+                  "strokeWidth": 0.5,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000001A",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 1
+                  },
+                  "padding": [
+                    4,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "yMqTg",
+                      "name": "Pairing action",
+                      "fill": "$ink",
+                      "content": "윈도우 연결 가져오기…",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uUYXH",
+                  "name": "Footer spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "icon",
+                  "id": "J45RoA",
+                  "name": "Info symbol",
+                  "width": 13,
+                  "height": 13,
+                  "icon": "info",
+                  "library": "lucide",
+                  "fill": "$secondary"
+                },
+                {
+                  "type": "text",
+                  "id": "YzHzq",
+                  "name": "Last source honesty",
+                  "fill": "$secondary",
+                  "content": "현재 입력은 모니터에서 직접 확인하세요",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "JxVUR",
+      "x": 0,
+      "y": 459,
+      "name": "04 · Context menu",
+      "clip": true,
+      "width": 248,
+      "fill": "$material",
+      "cornerRadius": 10,
+      "stroke": "$line",
+      "strokeWidth": 0.5,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000033",
+        "offset": {
+          "x": 0,
+          "y": 10
+        },
+        "blur": 30
+      },
+      "layout": "vertical",
+      "padding": 5,
+      "children": [
+        {
+          "type": "frame",
+          "id": "ecrkE",
+          "name": "모니터 2대 · 마지막 전환 Windows menu row",
+          "width": "fill_container",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "LBRfg",
+              "name": "모니터 2대 · 마지막 전환 Windows check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center"
+            },
+            {
+              "type": "text",
+              "id": "x7iX3z",
+              "name": "모니터 2대 · 마지막 전환 Windows menu label",
+              "fill": "$secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "마지막 전환: Windows",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Q9qhS",
+          "name": "Separator 1",
+          "width": "fill_container",
+          "padding": [
+            5,
+            10
+          ],
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "ltvGA",
+              "name": "Separator 1 line",
+              "fill": "$line",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "B9FVH",
+          "name": "Mac으로 전환 menu row",
+          "width": "fill_container",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "PdRRv",
+              "name": "Mac으로 전환 check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center"
+            },
+            {
+              "type": "text",
+              "id": "evLdX",
+              "name": "Mac으로 전환 menu label",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Mac으로 전환",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "O6oKOc",
+              "name": "Mac으로 전환 shortcut",
+              "fill": "$secondary",
+              "content": "⌃⌥⌘M",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "cvMHi",
+          "name": "Windows로 전환 menu row",
+          "width": "fill_container",
+          "fill": "$accent",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "DsWWf",
+              "name": "Windows로 전환 check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center"
+            },
+            {
+              "type": "text",
+              "id": "w6l74",
+              "name": "Windows로 전환 menu label",
+              "fill": "#FFFFFF",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Windows로 전환",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "K37Sj",
+              "name": "Windows로 전환 shortcut",
+              "fill": "#FFFFFFCC",
+              "content": "⌃⌥⌘W",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DCcGt",
+          "name": "Separator 2",
+          "width": "fill_container",
+          "padding": [
+            5,
+            10
+          ],
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "qtb8S",
+              "name": "Separator 2 line",
+              "fill": "$line",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jrZIR",
+          "name": "USB 버튼 자동 전환 menu row",
+          "width": "fill_container",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "W9wVUo",
+              "name": "USB 버튼 자동 전환 check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Cqrlu",
+                  "name": "USB 버튼 자동 전환 checkmark",
+                  "width": 12,
+                  "height": 12,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$ink"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Tt9NW",
+              "name": "USB 버튼 자동 전환 menu label",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "USB 버튼 자동 전환",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oDG8M",
+          "name": "로그인 시 자동 실행 menu row",
+          "width": "fill_container",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "OXH8F",
+              "name": "로그인 시 자동 실행 check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "pXqiC",
+                  "name": "로그인 시 자동 실행 checkmark",
+                  "width": 12,
+                  "height": 12,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$ink"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "dKsVN",
+              "name": "로그인 시 자동 실행 menu label",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "로그인 시 자동 실행",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TFAqg",
+          "name": "Separator 3",
+          "width": "fill_container",
+          "padding": [
+            5,
+            10
+          ],
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "yZCyH",
+              "name": "Separator 3 line",
+              "fill": "$line",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JiTH7",
+          "name": "설정 및 상태… menu row",
+          "width": "fill_container",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "f79VS",
+              "name": "설정 및 상태… check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center"
+            },
+            {
+              "type": "text",
+              "id": "xEwO6",
+              "name": "설정 및 상태… menu label",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "설정 및 상태…",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "gtVLJ",
+              "name": "설정 및 상태… shortcut",
+              "fill": "$secondary",
+              "content": "⌘,",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qKEfC",
+          "name": "윈도우 연결 가져오기… menu row",
+          "width": "fill_container",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "igakU",
+              "name": "윈도우 연결 가져오기… check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center"
+            },
+            {
+              "type": "text",
+              "id": "YYNsB",
+              "name": "윈도우 연결 가져오기… menu label",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "윈도우 연결 가져오기…",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zAp7J",
+          "name": "Separator 4",
+          "width": "fill_container",
+          "padding": [
+            5,
+            10
+          ],
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "x5JFXf",
+              "name": "Separator 4 line",
+              "fill": "$line",
+              "width": "fill_container",
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VoOC3",
+          "name": "Monitor Switch 종료 menu row",
+          "width": "fill_container",
+          "cornerRadius": 5,
+          "gap": 4,
+          "padding": [
+            3,
+            8,
+            3,
+            4
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "No4ZB",
+              "name": "Monitor Switch 종료 check column",
+              "width": 16,
+              "height": 16,
+              "justifyContent": "center",
+              "alignItems": "center"
+            },
+            {
+              "type": "text",
+              "id": "v5nR3v",
+              "name": "Monitor Switch 종료 menu label",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Monitor Switch 종료",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "JSXxr",
+              "name": "Monitor Switch 종료 shortcut",
+              "fill": "$secondary",
+              "content": "⌘Q",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "tgIJN",
+      "x": 1576,
+      "y": 0,
+      "name": "05 · Desktop · Monitor settings",
+      "clip": true,
+      "width": 680,
+      "fill": "$canvas",
+      "cornerRadius": 12,
+      "stroke": "$line",
+      "strokeWidth": 0.5,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000038",
+        "offset": {
+          "x": 0,
+          "y": 20
+        },
+        "blur": 50
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "iduhx",
+          "name": "Toolbar",
+          "width": "fill_container",
+          "height": 52,
+          "stroke": "$line",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "cJsAM",
+              "name": "Toolbar leading",
+              "width": "fill_container",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dAsWt",
+                  "name": "Window controls",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "JQRP1",
+                      "name": "Close",
+                      "fill": "#FF5F57",
+                      "width": 12,
+                      "height": 12,
+                      "stroke": "#0000001A",
+                      "strokeWidth": 0.5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "Fvkmf",
+                      "name": "Minimize",
+                      "fill": "#FEBC2E",
+                      "width": 12,
+                      "height": 12,
+                      "stroke": "#0000001A",
+                      "strokeWidth": 0.5
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "y3Uy84",
+                      "name": "Zoom",
+                      "fill": "#28C840",
+                      "width": 12,
+                      "height": 12,
+                      "stroke": "#0000001A",
+                      "strokeWidth": 0.5
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Dvok2",
+                  "name": "Window title",
+                  "fill": "$ink",
+                  "content": "Monitor Switch",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oCP4j",
+              "name": "Window navigation",
+              "fill": "$control",
+              "cornerRadius": 7,
+              "padding": 2,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zqwu2",
+                  "name": "화면 전환 tab",
+                  "cornerRadius": 5,
+                  "padding": [
+                    3,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ReklL",
+                      "name": "화면 전환 tab label",
+                      "fill": "$ink",
+                      "content": "화면 전환",
+                      "fontFamily": "$font",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vrovR",
+                  "name": "모니터 설정 tab",
+                  "fill": "$surface",
+                  "cornerRadius": 5,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000026",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
+                  "padding": [
+                    3,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VwqqZ",
+                      "name": "모니터 설정 tab label",
+                      "fill": "$ink",
+                      "content": "모니터 설정",
+                      "fontFamily": "$font",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x7jcmm",
+                  "name": "활동 기록 tab",
+                  "cornerRadius": 5,
+                  "padding": [
+                    3,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "R0b1Qc",
+                      "name": "활동 기록 tab label",
+                      "fill": "$ink",
+                      "content": "활동 기록",
+                      "fontFamily": "$font",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SgDpC",
+              "name": "Toolbar trailing",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Y5oeq",
+                  "name": "Open quick panel",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "ellipsis",
+                  "library": "lucide",
+                  "fill": "$secondary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NZhml",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            24,
+            28,
+            28,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "A1iqwG",
+              "name": "Display picker",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 12,
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "gap": 40,
+              "padding": [
+                22,
+                0,
+                18,
+                0
+              ],
+              "justifyContent": "center",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "H1x1H",
+                  "name": "Dell P2425 display",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "YWYYg",
+                      "name": "Dell P2425 selection ring",
+                      "cornerRadius": 9,
+                      "stroke": "$accent",
+                      "strokeWidth": 2.5,
+                      "padding": 3,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "AueYH",
+                          "name": "Dell P2425 screen",
+                          "width": 124,
+                          "height": 78,
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 135,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#64D2FF",
+                                "position": 0
+                              },
+                              {
+                                "color": "#007AFF",
+                                "position": 0.55
+                              },
+                              {
+                                "color": "#5E5CE6",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "cornerRadius": 6,
+                          "stroke": "#00000026",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MtgMt",
+                      "name": "Dell P2425 caption",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "cYYsm",
+                          "name": "Dell P2425 name",
+                          "fill": "$ink",
+                          "content": "Dell P2425",
+                          "fontFamily": "$font",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Qbx4d",
+                          "name": "Dell P2425 ports",
+                          "fill": "$secondary",
+                          "content": "HDMI 1 ↔ DP 1",
+                          "fontFamily": "$font",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Kamgt",
+                  "name": "LG UltraGear display",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "y9WP7s",
+                      "name": "LG UltraGear selection ring",
+                      "cornerRadius": 9,
+                      "padding": 3,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vMI7C",
+                          "name": "LG UltraGear screen",
+                          "width": 156,
+                          "height": 66,
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 135,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#FFD60A",
+                                "position": 0
+                              },
+                              {
+                                "color": "#FF9F0A",
+                                "position": 0.5
+                              },
+                              {
+                                "color": "#FF375F",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "cornerRadius": 6,
+                          "stroke": "#00000026",
+                          "strokeWidth": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sHehH",
+                      "name": "LG UltraGear caption",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "S4ju35",
+                          "name": "LG UltraGear name",
+                          "fill": "$ink",
+                          "content": "LG UltraGear",
+                          "fontFamily": "$font",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "MMLo0",
+                          "name": "LG UltraGear ports",
+                          "fill": "$secondary",
+                          "content": "HDMI 1 ↔ DP 1",
+                          "fontFamily": "$font",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "O75GGu",
+              "name": "Dell input mapping",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "jEXHX",
+                  "name": "Profile header",
+                  "padding": [
+                    0,
+                    4
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GFlKK",
+                      "name": "Profile heading",
+                      "fill": "$ink",
+                      "content": "Dell P2425",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qfe3p",
+                  "name": "Mapping box",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 10,
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": [
+                    0,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "wYzbi",
+                      "name": "전환에 포함 row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "GVafA",
+                          "name": "전환에 포함 label",
+                          "fill": "$ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "전환에 포함",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "VwwAx",
+                          "name": "Include toggle",
+                          "width": 32,
+                          "height": 19,
+                          "fill": "$accent",
+                          "cornerRadius": 10,
+                          "padding": 2,
+                          "justifyContent": "end",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "rfIHw",
+                              "name": "Include toggle thumb",
+                              "fill": "#FFFFFF",
+                              "width": 15,
+                              "height": 15,
+                              "effect": {
+                                "type": "shadow",
+                                "shadowType": "outer",
+                                "color": "#00000040",
+                                "offset": {
+                                  "x": 0,
+                                  "y": 1
+                                },
+                                "blur": 3
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "I2saqF",
+                      "name": "Row divider",
+                      "fill": "$line",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "u7JjhF",
+                      "name": "모니터 row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "p3dpU",
+                          "name": "모니터 label",
+                          "fill": "$ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "모니터",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "sKsbv",
+                          "name": "모니터 popup",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "p6u0P",
+                              "name": "모니터 value",
+                              "fill": "$secondary",
+                              "content": "DELL P2425",
+                              "fontFamily": "$font",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "E9CqA6",
+                              "name": "모니터 chevrons",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "chevrons-up-down",
+                              "library": "lucide",
+                              "fill": "$secondary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "lr1c5",
+                      "name": "Row divider",
+                      "fill": "$line",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "m2naaE",
+                      "name": "제어 방식 row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oENGC",
+                          "name": "제어 방식 label",
+                          "fill": "$ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "제어 방식",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "df2aS",
+                          "name": "제어 방식 popup",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "UIeQr",
+                              "name": "제어 방식 value",
+                              "fill": "$secondary",
+                              "content": "Standard DDC/CI · VCP 0x60",
+                              "fontFamily": "$font",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "VshSE",
+                              "name": "제어 방식 chevrons",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "chevrons-up-down",
+                              "library": "lucide",
+                              "fill": "$secondary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "U7DSzK",
+                      "name": "Row divider",
+                      "fill": "$line",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dqCTL",
+                      "name": "Mac 입력 row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Imc8B",
+                          "name": "Mac 입력 label",
+                          "fill": "$ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Mac 입력",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YdcWa",
+                          "name": "Mac 입력 popup",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "h5gG6",
+                              "name": "Mac 입력 value",
+                              "fill": "$secondary",
+                              "content": "HDMI 1 · 17 / 0x11",
+                              "fontFamily": "$font",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "FLX6U",
+                              "name": "Mac 입력 chevrons",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "chevrons-up-down",
+                              "library": "lucide",
+                              "fill": "$secondary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "fD6Gk",
+                      "name": "Row divider",
+                      "fill": "$line",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sDG97",
+                      "name": "Windows 입력 row",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        10,
+                        0
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "hOIr9",
+                          "name": "Windows 입력 label",
+                          "fill": "$ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Windows 입력",
+                          "fontFamily": "$font",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jlSEC",
+                          "name": "Windows 입력 popup",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "gbBHg",
+                              "name": "Windows 입력 value",
+                              "fill": "$secondary",
+                              "content": "DisplayPort 1 · 15 / 0x0F",
+                              "fontFamily": "$font",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "tL97K",
+                              "name": "Windows 입력 chevrons",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "chevrons-up-down",
+                              "library": "lucide",
+                              "fill": "$secondary"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tGOba",
+              "name": "Read monitor controls",
+              "width": "fill_container",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "KpSGf",
+                  "name": "모니터 찾기",
+                  "fill": "$surface",
+                  "cornerRadius": 6,
+                  "stroke": "$line",
+                  "strokeWidth": 0.5,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000001A",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 1
+                  },
+                  "padding": [
+                    4,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "w9y2Am",
+                      "name": "모니터 찾기 label",
+                      "fill": "$ink",
+                      "content": "모니터 찾기",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Slv9U",
+                  "name": "현재 입력 읽기",
+                  "fill": "$surface",
+                  "cornerRadius": 6,
+                  "stroke": "$line",
+                  "strokeWidth": 0.5,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000001A",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 1
+                  },
+                  "padding": [
+                    4,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "bpgVg",
+                      "name": "현재 입력 읽기 label",
+                      "fill": "$ink",
+                      "content": "현재 입력 읽기",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cIuhy",
+                  "name": "Actions spacer",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "wtL3n",
+                  "name": "이 컴퓨터 입력에 적용",
+                  "fill": "$surface",
+                  "cornerRadius": 6,
+                  "stroke": "$line",
+                  "strokeWidth": 0.5,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000001A",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 1
+                  },
+                  "padding": [
+                    4,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SuJX5",
+                      "name": "이 컴퓨터 입력에 적용 label",
+                      "fill": "$ink",
+                      "content": "이 컴퓨터 입력에 적용",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vrh9j",
+                  "name": "설정 저장",
+                  "fill": "$accent",
+                  "cornerRadius": 6,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000001A",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 1
+                  },
+                  "padding": [
+                    4,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mXm3Q",
+                      "name": "설정 저장 label",
+                      "fill": "#FFFFFF",
+                      "content": "설정 저장",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "themes": {
+    "mode": [
+      "light",
+      "dark"
+    ]
+  },
+  "variables": {
+    "surface": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2B2B2D",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "canvas": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F2F2F4",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1E1E20",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ink": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#1D1D1F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F5F5F7",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "secondary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#6E6E73",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#98989D",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "line": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#0000001A",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FFFFFF1A",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#007AFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#0A84FF",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "accent-soft": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#007AFF1A",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#0A84FF2E",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "font": {
+      "type": "string",
+      "value": "Noto Sans KR"
+    },
+    "control": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#7878801F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#78788052",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "material": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ECECEEF5",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1C1C1EF2",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "module": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#FFFFFF12",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    }
+  },
+  "fileToken": "cb6d9a58-2a9a-4433-8447-21e438f85b03"
+}

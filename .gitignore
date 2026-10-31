@@ -8,7 +8,14 @@ dist/
 releases/
 .DS_Store
 release-assets/
-design/
+/design/**
+!/design/**/
+!/design/README.md
+!/design/monitor-switch.pen
+!/design/previews/*.png
+!/design/applied-v2/*.png
+!/design/app-icon/monochrome/*.png
+!/design/app-icon/monochrome/prompt.txt
 docs/
 relay-monitors.json
 lg-switch-test.json

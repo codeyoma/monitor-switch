@@ -1,0 +1,8 @@
+Method: built-in image_gen; restyled from the previous application icon.
+
+Use case: logo-brand.
+Asset type: monochrome foreground artwork for a macOS utility application icon, a single square image with true transparent alpha.
+Redesign the referenced Monitor Switch icon into a much quieter, more Apple-like system utility symbol. Preserve ONLY the meaning: two external displays and bidirectional input switching. Replace the previous colorful 3D hardware illustration entirely.
+Draw a clean, bold SF Symbols-like geometric mark: two simple overlapping display outlines, the rear rectangle slightly up-left, the front rectangle slightly down-right with a short simple central stand and base. A compact pair of opposing horizontal arrows inside the front display communicates switching. Use precise consistent charcoal strokes, gently rounded corners, balanced optical weight, and very few shapes. Flat, orthographic, restrained, immediately readable at 32px. The symbol should occupy about 76 percent of the canvas width, centered with generous equal negative space.
+STRICT palette: neutral graphite, black, neutral gray and white ONLY, with equal red/green/blue channel values. No blue, cyan, warm tint, accent color, gradients, glow, reflections, realistic hardware detail, chrome, bevels, thick shadows or elaborate materials.
+Background: genuinely transparent. Do NOT draw a rounded-square tile, enclosing frame, app icon backplate or presentation scene; macOS will supply the native app icon backing. No text, no Apple logo, no Windows logo, no branding. Deliver one finished foreground mark, not several options.

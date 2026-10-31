@@ -12,4 +12,4 @@ Mac 메뉴 막대와 Windows 트레이에서 Dell·LG 모니터 입력을 전환
 
 DDC 지원은 모니터·케이블·독에 따라 다릅니다. LG 전체 모델의 호환성을 보장하지 않습니다.
 
-[빌드·배포](BUILDING.md) · [MIT](LICENSE) · [타사 라이선스](THIRD_PARTY.md)
+[디자인](design/README.md) · [빌드·배포](BUILDING.md) · [MIT](LICENSE) · [타사 라이선스](THIRD_PARTY.md)
