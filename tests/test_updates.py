@@ -4,6 +4,8 @@ import io
 import json
 import os
 import stat
+import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
@@ -231,6 +233,21 @@ class UpdateTests(unittest.TestCase):
         UpdateController.finished(state)
         self.assertFalse(state.cancelling)
         self.assertIsNone(state.job)
+
+    def test_native_process_exit_wait_and_timeout(self):
+        from monitor_switch.update_install import wait_for_exit
+        for seconds, timeout, should_timeout in ((0.1, 3, False), (5, 0.02, True)):
+            child = subprocess.Popen([sys.executable, '-c', f'import time;time.sleep({seconds})'])
+            try:
+                if should_timeout:
+                    with self.assertRaises(TimeoutError):
+                        wait_for_exit(child.pid, timeout=timeout)
+                else:
+                    wait_for_exit(child.pid, timeout=timeout)
+                    self.assertEqual(child.wait(2), 0)
+            finally:
+                if child.poll() is None:
+                    child.terminate();child.wait(2)
 
     def test_installer_health_success_and_failed_start_rollback_preserve_settings(self):
         from PySide6.QtCore import QLockFile  # Load the actual host runtime before platform simulation.

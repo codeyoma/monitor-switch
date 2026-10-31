@@ -8,6 +8,7 @@ import subprocess
 import sys
 import time
 import uuid
+from contextlib import closing
 from pathlib import Path
 
 from .startup import APP_ID, LoginStartup, app_bundle, data_directory, install_mac_bundle, write_json
@@ -137,7 +138,7 @@ def wait_for_exit(pid, timeout=90):
             kernel.CloseHandle(handle)
     else:
         import select
-        with select.kqueue() as queue:
+        with closing(select.kqueue()) as queue:
             try:
                 events = queue.control([select.kevent(pid, filter=select.KQ_FILTER_PROC,
                     flags=select.KQ_EV_ADD | select.KQ_EV_ONESHOT, fflags=select.KQ_NOTE_EXIT)], 1, timeout)
