@@ -17,6 +17,7 @@ if sys.platform not in ('darwin', 'win32'):
 command = [sys.executable, '-m', 'PyInstaller', '--noconfirm', '--windowed',
            '--onedir', '--name', 'Monitor Switch', '--add-data', 'THIRD_PARTY.md:.',
            '--add-data', 'LICENSE:.', '--add-data', 'README.md:.',
+           '--add-data', 'BUILDING.md:.',
            '--add-data', 'WINDOWS-RELAY-SETUP.md:.', '--add-data', 'licenses:licenses']
 command += ['--add-data','relay-monitors.example.json:.','--add-data','assets:assets',
             '--copy-metadata', 'cryptography', '--copy-metadata', 'cffi',

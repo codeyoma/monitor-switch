@@ -54,7 +54,7 @@ class UpdateJob(QThread):
                 raise TimeoutError('Update check timed out.')
             if self.cancelled.is_set():
                 raise InterruptedError('Update cancelled.')
-            result = json.loads((stage/'result.json').read_text())
+            result = json.loads((stage/'result.json').read_text(encoding='utf-8'))
             if result.get('stage') and Path(result['stage']).resolve() != stage.resolve():
                 raise ValueError('Unexpected update worker result.')
         except Exception as exc:

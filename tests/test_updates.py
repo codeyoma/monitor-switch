@@ -189,6 +189,47 @@ class UpdateTests(unittest.TestCase):
              patch.object(update_install, 'LoginStartup', Startup):
             update_install.synchronize_startup()
 
+    def test_cancel_stops_network_child_and_cleans_staging(self):
+        import threading
+        from PySide6.QtCore import QCoreApplication
+        from monitor_switch import update_ui
+        app = QCoreApplication.instance() or QCoreApplication([])
+        started, stopped = threading.Event(), threading.Event()
+        class Process:
+            def __init__(self, *args, **kwargs):
+                started.set()
+            def wait(self, timeout=None):
+                if not stopped.wait(timeout):
+                    raise TimeoutError('Test child did not stop.')
+                return -15
+            def poll(self):
+                return -15 if stopped.is_set() else None
+            def terminate(self):
+                stopped.set()
+            kill = terminate
+        results = []
+        with patch.object(update_ui, 'data_directory', return_value=self.root), \
+             patch.object(update_ui.subprocess, 'Popen', Process):
+            job = update_ui.UpdateJob(None)
+            job.completed.connect(results.append)
+            job.start()
+            self.assertTrue(started.wait(2))
+            job.cancel()
+            self.assertTrue(job.wait(2000))
+            app.processEvents()
+        self.assertIn('cancelled', results[0]['error'].lower())
+        self.assertFalse(list(self.root.glob('update-*')))
+
+    def test_cancelled_check_can_be_followed_by_another_check(self):
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        from monitor_switch.update_ui import UpdateController
+        state = SimpleNamespace(job=Mock(), result={'error': 'cancelled'}, cancelling=True,
+                                refresh=Mock())
+        UpdateController.finished(state)
+        self.assertFalse(state.cancelling)
+        self.assertIsNone(state.job)
+
     def test_installer_health_success_and_failed_start_rollback_preserve_settings(self):
         from PySide6.QtCore import QLockFile  # Load the actual host runtime before platform simulation.
         from monitor_switch import update_install
