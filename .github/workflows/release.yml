@@ -75,4 +75,6 @@ jobs:
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" release-assets/* --verify-tag --title "$GITHUB_REF_NAME" --notes-file RELEASE_NOTES.md
+        run: |
+          gh release create "$GITHUB_REF_NAME" release-assets/* --draft --verify-tag --title "$GITHUB_REF_NAME" --notes-file RELEASE_NOTES.md
+          gh release edit "$GITHUB_REF_NAME" --draft=false --latest

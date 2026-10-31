@@ -11,9 +11,21 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from monitor_switch.version import VERSION, REPOSITORY
 import json
+import ssl
+import urllib.request
+import certifi
 os.chdir(ROOT)
 if sys.platform not in ('darwin', 'win32'):
     raise SystemExit('Build on macOS or Windows.')
+# Include the license for the exact Python runtime embedded by PyInstaller.
+notice = ROOT/'build/runtime-notices/Python-LICENSE.txt'
+notice.parent.mkdir(parents=True, exist_ok=True)
+url = f'https://raw.githubusercontent.com/python/cpython/v{platform.python_version()}/LICENSE'
+with urllib.request.urlopen(url, context=ssl.create_default_context(cafile=certifi.where()), timeout=30) as response:
+    payload = response.read(128 * 1024)
+if not payload.startswith(b'A. HISTORY OF THE SOFTWARE'):
+    raise SystemExit('Unexpected Python license document.')
+notice.write_bytes(payload)
 command = [sys.executable, '-m', 'PyInstaller', '--noconfirm', '--windowed',
            '--onedir', '--name', 'Monitor Switch', '--add-data', 'THIRD_PARTY.md:.',
            '--add-data', 'LICENSE:.', '--add-data', 'README.md:.',
@@ -23,6 +35,7 @@ command += ['--add-data','relay-monitors.example.json:.','--add-data','assets:as
             '--copy-metadata', 'cryptography', '--copy-metadata', 'cffi',
             '--copy-metadata', 'certifi',
             '--copy-metadata', 'PySide6_Essentials', '--copy-metadata', 'shiboken6']
+command += ['--add-data', f'{notice}:licenses']
 if sys.platform == 'darwin':
     icon = ROOT/'assets/app/MonitorSwitch.icns'
     subprocess.run([sys.executable,str(ROOT/'scripts/build_app_icon.py')],check=True)
