@@ -474,7 +474,12 @@ class QuickPanel(QFrame):
 
     def __init__(self,host,parent=None):
         mac_panel=sys.platform=='darwin'
-        super().__init__(parent,(Qt.WindowType.Tool if mac_panel else Qt.WindowType.Popup)|Qt.WindowType.FramelessWindowHint)
+        flags=(Qt.WindowType.Tool if mac_panel else Qt.WindowType.Popup)|Qt.WindowType.FramelessWindowHint
+        if sys.platform=='win32':
+            # The rounded surface already draws its shadow. Windows' popup
+            # shadow outlines the larger transparent rectangle at its edges.
+            flags|=Qt.WindowType.NoDropShadowWindowHint
+        super().__init__(parent,flags)
         self.mac_panel=mac_panel
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAccessibleName('Monitor Switch 빠른 전환');self.setWindowTitle('Monitor Switch · 빠른 전환');self.last_hidden=0
