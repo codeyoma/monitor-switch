@@ -278,7 +278,7 @@ class RelayHandler(BaseHTTPRequestHandler):
                 result = {'results': [dict(id=identity, status='uncertain', error='Native worker failed; no automatic retry.')
                                       for identity in data['monitors']]}
             # Never expose the pairing secret or accept an arbitrary feature/value.
-            public = {'results': [{name: row[name] for name in ('id', 'status', 'error', 'write_attempted') if name in row}
+            public = {'results': [{name: row[name] for name in ('id', 'status', 'error', 'message', 'write_attempted') if name in row}
                                   for row in result['results']]}
             public.update(monitor_id=pairing['monitor_id'], physical_switch_confirmed=False)
             self.reply(200, public)

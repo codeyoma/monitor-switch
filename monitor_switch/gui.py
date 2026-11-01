@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
 
 from .core import default_config, load_config, save_config, validate_config, config_path
 from .worker import invoke
-from .ui import Shell, PopupCombo, Toggle, module, label, divider
+from .ui import Shell, PopupCombo, Toggle, module, label, divider, switch_feedback
 
 STANDARD = [('DisplayPort 1', 15), ('DisplayPort 2', 16), ('HDMI 1', 17),
             ('HDMI 2', 18), ('USB-C (monitor-dependent)', 27)]
@@ -505,8 +505,7 @@ class Window(QMainWindow):
 
     def switched(self, result):
         self.shell.record_outcome(getattr(self,'pending_target',None),result['results'])
-        uncertain=any(row['status'] not in ('sent','skipped') for row in result['results'])
-        self.shell.message('일부 모니터의 전환 결과를 확인해야 합니다. 활동 기록을 확인하세요.' if uncertain else '전환 명령을 보냈습니다. 실제 화면을 확인하세요.',uncertain)
+        self.shell.message(*switch_feedback(result['results']))
         for row in result['results']:
             prefix = 'SIMULATED · ' if self.demo else ''
             self.log.appendPlainText(f"{prefix}{row['label']}: {row['status']} · {row['message']}")

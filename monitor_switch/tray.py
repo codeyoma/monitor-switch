@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
     QLabel, QPushButton, QCheckBox, QPlainTextEdit, QFileDialog, QMessageBox, QMenu, QSystemTrayIcon, QGroupBox, QFormLayout)
 
 from .startup import LoginStartup, data_directory, login_command
-from .ui import ASSETS, Shell, QuickPanel, Toggle, apply_theme, colors, icon, input_name, label, module, divider
+from .ui import ASSETS, Shell, QuickPanel, Toggle, apply_theme, colors, icon, input_name, label, module, divider, switch_feedback
 
 ROOT = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent.parent))
 
@@ -236,14 +236,13 @@ class WindowsWindow(QMainWindow):
         elif kind == 'result':
             self.native_busy=False
             self.shell.record_outcome(event['target'],event['result'].get('results',[]))
-            uncertain=any(r['status'] not in ('sent','skipped') for r in event['result'].get('results',[]))
-            self.shell.message('일부 모니터의 전환 결과를 확인해야 합니다. 활동 기록을 확인하세요.' if uncertain else '전환 명령을 보냈습니다. 실제 화면을 확인하세요.',uncertain)
+            self.shell.message(*switch_feedback(event['result'].get('results',[])))
             profiles = {p['id']:p['label'] for p in self.service.profiles}
             rows = event['result'].get('results',[])
             self.status.setText('마지막 요청: '+event['target']+' · '+', '.join(p['status'] for p in rows))
             for row in rows:
                 self.log.appendPlainText(profiles.get(row['id'],row['id'])+': '+row['status']+
-                                         (' · '+row['error'] if row.get('error') else ''))
+                                         (' · '+(row.get('message') or row.get('error')) if row.get('message') or row.get('error') else ''))
         elif event.get('message'):
             self.log.appendPlainText(event['message'])
         self.refresh()

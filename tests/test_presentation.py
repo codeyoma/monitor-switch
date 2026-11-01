@@ -216,6 +216,15 @@ class PresentationTests(unittest.TestCase):
             self.assertIsNone(window.shell.last_target)
             start.assert_not_called()
 
+    def test_skipped_usb_request_does_not_claim_an_input_command_was_sent(self):
+        window = self.window
+        window.pending_target = 'windows'
+        window.switched({'results': [dict(id='demo-dell', label='Dell', status='skipped',
+            message='Same input as the last accepted app command; no input command sent.')]})
+        self.assertIn('생략', window.shell.feedback.text())
+        self.assertNotIn('명령을 보냈', window.shell.feedback.text())
+        self.assertFalse(bool(window.shell.feedback.property('warning')))
+
     def test_visible_shortcuts_are_scoped_to_the_application_and_use_existing_guards(self):
         for action in (self.resident.mac,self.resident.windows,self.resident.settings_action):
             self.assertFalse(action.shortcut().isEmpty())

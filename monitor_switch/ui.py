@@ -22,6 +22,14 @@ DARK=dict(surface='#2B2B2D',canvas='#1E1E20',ink='#F5F5F7',secondary='#98989D',
     material='#1C1C1EF2',module='#FFFFFF12',hover='#38383B',warning='#E5B866')
 
 
+def switch_feedback(results):
+    if not results or any(row.get('status') not in ('sent','skipped') for row in results):
+        return '일부 모니터의 전환 결과를 확인해야 합니다. 활동 기록을 확인하세요.', True
+    if all(row.get('status') == 'skipped' for row in results):
+        return '중복 요청이라 화면 전환 명령을 생략했습니다.', False
+    return '전환 명령을 보냈습니다. 실제 화면을 확인하세요.', False
+
+
 def colors():
     app=QApplication.instance()
     scheme=app.styleHints().colorScheme()

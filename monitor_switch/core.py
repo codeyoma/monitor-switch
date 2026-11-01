@@ -155,8 +155,9 @@ def switch(config, target, backend, automatic=False):
                     reply = relay_send(row)
                     if reply.get('status') not in ('sent', 'uncertain', 'unavailable', 'skipped'):
                         raise RuntimeError('Windows returned an invalid switch result.')
-                    return dict(result, status=reply['status'], message=reply.get('error') or
-                                'Windows command sent; check the actual monitor picture.')
+                    return dict(result, status=reply['status'], message=reply.get('message') or reply.get('error') or (
+                                'Duplicate request skipped; no input command sent.' if reply['status']=='skipped' else
+                                'Windows command sent; check the actual monitor picture.'))
                 except Exception as exc:
                     return dict(result, status=getattr(exc, 'status', 'uncertain'), message=str(exc))
             matches = by_id.get(row['id'], [])

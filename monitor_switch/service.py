@@ -32,6 +32,7 @@ class RelayService:
         self.stopping = threading.Event()
         self.auto_enabled = threading.Event()
         self.automatic_requests = AutomaticRequests()
+        self.sent_inputs = {}
         self.state_path = self.data/'relay-server.json'
         self.mapping_path = self.data/'relay-monitors.json'
 
@@ -40,6 +41,10 @@ class RelayService:
 
     def start(self):
         self.stopping.clear()
+        # This is a history of accepted app commands, not a physical input read.
+        # Never restore it from disk or infer it from the USB startup baseline.
+        self.sent_inputs.clear()
+        self.automatic_requests = AutomaticRequests()
         self.state = json.loads(self.state_path.read_text(encoding='utf-8')) if self.state_path.exists() else {}
         if self.mapping_path.exists():
             self.profiles = json.loads(self.mapping_path.read_text(encoding='utf-8'))['monitors']
@@ -120,20 +125,50 @@ class RelayService:
                                       error='Duplicate USB arrival; no command sent.') for p in requested]}
             self.emit('result', target=target, result=result)
             return result
+        skipped, pending = {}, []
+        for profile in requested:
+            if automatic and self.sent_inputs.get(profile['id']) == (profile['mode'], profile[target]):
+                skipped[profile['id']] = dict(id=profile['id'], label=profile['label'], code=profile[target],
+                    status='skipped', write_attempted=False, physical_switch_confirmed=False,
+                    message='Same input as the last accepted app command; no input command sent.')
+            else:
+                pending.append(profile)
+        if not pending:
+            result = {'results':[skipped[p['id']] for p in requested]}
+            self.emit('result', target=target, result=result)
+            return result
+        # An attempted change can take effect even if the worker fails. Forget
+        # the previous command before sending; only clean sent results replace it.
+        for profile in pending:
+            self.sent_inputs.pop(profile['id'], None)
         self.emit('busy', target=target)
         try:
             runner = self.runner
             if runner is None:
                 from scripts.windows_lg_switch_test import run_test
                 runner = run_test
-            result = runner({'monitors':requested}, target, timeout=15,
+            result = runner({'monitors':pending}, target, timeout=15,
                             diagnostics=self.data/'diagnostics',
                             reporter=lambda message:self.emit('message',message=message))
         except Exception as exc:
             result = {'error':str(exc)}
-        if 'results' not in result:
-            result['results'] = [dict(id=p['id'],status='uncertain',error=result.get('error','Worker failed.'))
-                                 for p in requested]
+        if not isinstance(result, dict):
+            result = {'error':'Invalid native worker report.'}
+        rows = result.get('results')
+        valid = (isinstance(rows,list) and len(rows) == len(pending)
+                 and all(isinstance(r,dict) and isinstance(r.get('id'),str)
+                         and r.get('status') in ('sent','uncertain','unavailable','skipped') for r in rows)
+                 and {r.get('id') for r in rows} == {p['id'] for p in pending})
+        if not valid:
+            rows = [dict(id=p['id'],status='uncertain',write_attempted=None,
+                         error=result.get('error','Invalid or incomplete native worker report.')) for p in pending]
+        by_id = {row['id']:row for row in rows}
+        for profile in pending:
+            row = by_id[profile['id']]
+            if (row['status'] == 'sent' and row.get('write_attempted') is True and not row.get('error')
+                    and not result.get('error') and not result.get('worker_warning')):
+                self.sent_inputs[profile['id']] = (profile['mode'], profile[target])
+        result['results'] = [skipped[p['id']] if p['id'] in skipped else by_id[p['id']] for p in requested]
         self.emit('result', target=target, result=result)
         return result
 

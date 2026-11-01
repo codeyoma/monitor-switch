@@ -43,7 +43,7 @@ class ServiceTests(unittest.TestCase):
         self.commands, self.events = [], []
         def runner(config, target, **kwargs):
             self.commands.append((config,target))
-            return {'results':[dict(id=p['id'],status='sent') for p in config['monitors']]}
+            return {'results':[dict(id=p['id'],status='sent',write_attempted=True) for p in config['monitors']]}
         with socket.socket() as listener:
             listener.bind(('127.0.0.1',0))
             port = listener.getsockname()[1]
@@ -84,6 +84,92 @@ class ServiceTests(unittest.TestCase):
         self.service.start()
         self.assertEqual(self.service.pairing['key'],key)
         self.assertFalse(self.service.auto_enabled.is_set())
+
+    def test_manual_windows_request_from_mac_then_windows_usb_arrival_sends_nothing(self):
+        from monitor_switch.relay import request
+        self.service.start()
+        pairing = self.service.pairing | {'host': '127.0.0.1'}
+        identities = [p['id'] for p in self.service.profiles]
+        request(pairing, 'POST', '/switch', {'target': 'windows', 'monitors': identities})
+        self.assertEqual(len(self.commands), 1)
+        self.service.observed_usb(dict(state='present', trigger=True))
+        self.assertEqual(len(self.commands), 1, 'Already-requested inputs must not receive another native command.')
+        result = [e for e in self.events if e['kind'] == 'result'][-1]['result']
+        self.assertEqual([r['status'] for r in result['results']], ['skipped', 'skipped'])
+        self.assertTrue(all(r['write_attempted'] is False for r in result['results']))
+
+    def test_automatic_request_switches_only_the_monitor_with_a_different_last_input(self):
+        self.service.start()
+        dell, lg = self.service.profiles
+        with self.service.server.operation:
+            self.service.send('windows', [dell['id']])
+            self.service.send('mac', [lg['id']])
+            result = self.service.send('windows', [dell['id'], lg['id']], automatic=True)
+        self.assertEqual([p['id'] for p in self.commands[-1][0]['monitors']], [lg['id']])
+        self.assertEqual([r['status'] for r in result['results']], ['skipped', 'sent'])
+
+    def test_mac_usb_relay_skips_the_same_input_and_returns_the_explanation(self):
+        from monitor_switch.relay import request
+        self.service.start()
+        pairing = self.service.pairing | {'host': '127.0.0.1'}
+        data = {'target': 'mac', 'monitors': [p['id'] for p in self.service.profiles]}
+        request(pairing, 'POST', '/switch', data)
+        result = request(pairing, 'POST', '/switch', data | {'automatic': True})
+        self.assertEqual(len(self.commands), 1)
+        self.assertFalse(result['physical_switch_confirmed'])
+        self.assertTrue(all(r['status']=='skipped' and not r['write_attempted'] for r in result['results']))
+        self.assertTrue(all('no input command sent' in r['message'] for r in result['results']))
+
+    def test_explicit_manual_button_always_allows_reapplying_the_input(self):
+        self.service.start()
+        self.service.manual('windows')
+        self.service.manual('windows')
+        self.assertEqual([command[1] for command in self.commands], ['windows', 'windows'])
+
+    def test_failed_opposite_command_invalidates_history_and_is_not_silently_skipped(self):
+        self.service.start()
+        runner = self.service.runner
+        self.service.manual('windows')
+        def failed(*args, **kwargs):
+            raise RuntimeError('The driver failed after a possible write.')
+        self.service.runner = failed
+        result = self.service.manual('mac')
+        self.assertTrue(all(r['status']=='uncertain' for r in result['results']))
+        self.service.runner = runner
+        self.service.observed_usb(dict(state='present', trigger=True))
+        self.assertEqual(len(self.commands), 2)
+        self.assertEqual(self.commands[-1][1], 'windows')
+        self.assertEqual(len(self.commands[-1][0]['monitors']), 2)
+
+    def test_partial_native_result_is_not_reused_as_a_complete_success(self):
+        self.service.start()
+        runner = self.service.runner
+        self.service.runner = lambda config, target, **kwargs: {'results': [dict(
+            id=config['monitors'][0]['id'], status='sent')]}
+        result = self.service.manual('windows')
+        self.assertTrue(all(r['status']=='uncertain' for r in result['results']))
+        self.service.runner = runner
+        self.service.observed_usb(dict(state='present', trigger=True))
+        self.assertEqual(len(self.commands), 1)
+        self.assertEqual(len(self.commands[-1][0]['monitors']), 2)
+
+    def test_restart_does_not_assume_a_previous_command_is_still_the_displayed_input(self):
+        self.service.start()
+        self.service.manual('windows')
+        self.service.stop()
+        self.service.start()
+        self.service.observed_usb(dict(state='present', trigger=True))
+        self.assertEqual(len(self.commands), 2)
+
+    def test_changed_input_mapping_is_not_skipped_using_the_previous_code(self):
+        self.service.start()
+        self.service.manual('windows')
+        dell, _lg = self.service.profiles
+        dell['windows'] = 16
+        self.service.observed_usb(dict(state='present', trigger=True))
+        profiles = self.commands[-1][0]['monitors']
+        self.assertEqual([p['id'] for p in profiles], [dell['id']])
+        self.assertEqual(profiles[0]['windows'], 16)
 
 
 try:
