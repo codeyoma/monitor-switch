@@ -30,12 +30,17 @@ class FakeSource:
 class EventTests(unittest.TestCase):
     def setUp(self):
         self.source, self.results = FakeSource(), []
+        self.observed = threading.Event()
+
+        def observe(result):
+            self.results.append(result)
+            self.observed.set()
 
         def factory(changed, failed):
             self.source.changed, self.source.failed = changed, failed
             return self.source
 
-        self.watcher = USBEventWatcher(self.results.append, source_factory=factory, settle=0.03)
+        self.watcher = USBEventWatcher(observe, source_factory=factory, settle=0.03)
         self.thread = threading.Thread(target=self.watcher.run)
         self.thread.start()
         self.assertTrue(self.watcher.ready.wait(1))
@@ -67,6 +72,16 @@ class EventTests(unittest.TestCase):
         self.assertTrue(self.results[-1]['trigger'])
         time.sleep(0.1)
         self.assertEqual(self.source.queries, 2)
+
+    def test_later_duplicate_arrival_notifications_do_not_trigger_again(self):
+        self.observed.clear()
+        self.source.current = 1
+        self.source.changed()
+        self.assertTrue(self.observed.wait(1))
+        self.observed.clear()
+        self.source.changed()
+        self.assertTrue(self.observed.wait(1))
+        self.assertEqual(sum(row['trigger'] for row in self.results), 1)
 
     def test_query_error_does_not_rearm_or_retry(self):
         self.source.current = 1
@@ -146,6 +161,50 @@ class EventTests(unittest.TestCase):
         self.assertTrue(source.closed)
         self.assertEqual(results[-1]['state'],'error')
         self.assertIn('no polling fallback',results[-1]['message'])
+
+
+class DefaultTimingTests(unittest.TestCase):
+    def setUp(self):
+        self.source, self.results = FakeSource(), []
+        self.observed = threading.Event()
+
+        def observe(result):
+            self.results.append(result)
+            self.observed.set()
+
+        def factory(changed, failed):
+            self.source.changed = changed
+            return self.source
+
+        # Use the production default, as both resident apps do.
+        self.watcher = USBEventWatcher(observe, source_factory=factory)
+        self.thread = threading.Thread(target=self.watcher.run)
+        self.thread.start()
+        self.assertTrue(self.watcher.ready.wait(1))
+        self.observed.clear()
+
+    def tearDown(self):
+        self.watcher.stop()
+        self.thread.join(1)
+        self.assertFalse(self.thread.is_alive())
+
+    def test_stable_usb_arrival_is_reported_without_a_one_second_wait(self):
+        self.source.current = 1
+        self.source.changed()
+        self.assertFalse(self.observed.wait(0.05), 'Keep a short window to merge USB notifications.')
+        self.assertTrue(self.observed.wait(0.7), 'Do not add a full second before switching.')
+        self.assertTrue(self.results[-1]['trigger'])
+        self.assertEqual(self.source.queries, 2)
+
+    def test_short_lived_usb_arrival_does_not_switch(self):
+        self.source.current = 1
+        self.source.changed()
+        time.sleep(0.05)
+        self.source.current = 0
+        self.source.changed()
+        self.assertTrue(self.observed.wait(1.5))
+        self.assertFalse(any(result['trigger'] for result in self.results))
+        self.assertEqual(self.results[-1]['state'], 'absent')
 
 
 if __name__ == '__main__':

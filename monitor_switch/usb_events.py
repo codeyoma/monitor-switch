@@ -31,7 +31,7 @@ def native_source(changed, failed):
 
 
 class USBEventWatcher:
-    def __init__(self, observed, *, source_factory=native_source, settle=1.0, enabled=True):
+    def __init__(self, observed, *, source_factory=native_source, settle=0.2, enabled=True):
         self.observed, self.source_factory, self.settle = observed, source_factory, settle
         self.condition = threading.Condition()
         self.ready = threading.Event()
@@ -46,6 +46,8 @@ class USBEventWatcher:
             if self._enabled and not self._stopped:
                 self._sequence += 1
                 self._pending = True
+                # Only matching physical USB notifications reach this method.
+                # Merge their short burst without adding a full second to each switch.
                 self._deadline = time.monotonic() + self.settle
                 self.condition.notify_all()
 
