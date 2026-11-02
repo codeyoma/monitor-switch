@@ -77,6 +77,7 @@ def apply_theme(app):
         (QPalette.ColorRole.Highlight,'accent')]:palette.setColor(role,color(c[key]))
     palette.setColor(QPalette.ColorRole.HighlightedText,QColor('white'));app.setPalette(palette)
     s={key:css(value) for key,value in c.items()}
+    s['opaque_material']=color(c['material']).name()
     app.setStyleSheet(f'''
         QWidget {{ color:{s['ink']}; font-size:13px; }}
         QMainWindow, QWidget#Shell, QWidget#Page {{ background:{s['canvas']}; }}
@@ -92,6 +93,7 @@ def apply_theme(app):
         QTabBar#NavTabs::tab:selected {{ background:{s['surface']}; font-weight:600; }}
         QFrame#Module, QFrame#SettingsGroup {{ background:{s['module']}; border:1px solid {s['line']}; border-radius:10px; }}
         QFrame#PopupSurface {{ background:{s['material']}; border:1px solid {s['line']}; border-radius:16px; }}
+        QFrame#PopupSurface[opaquePopup="true"] {{ background:{s['opaque_material']}; }}
         QFrame#QuickModule {{ background:{s['module']}; border:0; border-radius:12px; }}
         QFrame#Divider {{ background:{s['line']}; border:0; }}
         QPushButton, QToolButton {{ background:{s['surface']}; border:1px solid {s['line']}; border-radius:6px; padding:4px 12px; }}
@@ -475,17 +477,20 @@ class QuickPanel(QFrame):
     def __init__(self,host,parent=None):
         mac_panel=sys.platform=='darwin'
         flags=(Qt.WindowType.Tool if mac_panel else Qt.WindowType.Popup)|Qt.WindowType.FramelessWindowHint
-        if sys.platform=='win32':
+        if sys.platform in ('darwin','win32'):
             # The rounded surface already draws its shadow. Windows' popup
-            # shadow outlines the larger transparent rectangle at its edges.
+            # and Cocoa's native shadow outline its transparent padding too.
             flags|=Qt.WindowType.NoDropShadowWindowHint
         super().__init__(parent,flags)
         self.mac_panel=mac_panel
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAccessibleName('Monitor Switch 빠른 전환');self.setWindowTitle('Monitor Switch · 빠른 전환');self.last_hidden=0
         outer=QVBoxLayout(self);outer.setContentsMargins(18,8,18,32)
-        self.surface=module('PopupSurface');self.surface.setFixedWidth(320);outer.addWidget(self.surface)
-        shadow=QGraphicsDropShadowEffect(self.surface);shadow.setBlurRadius(36);shadow.setOffset(0,12)
+        self.surface=module('PopupSurface');self.surface.setProperty('opaquePopup',mac_panel)
+        self.surface.setFixedWidth(320);outer.addWidget(self.surface)
+        shadow=QGraphicsDropShadowEffect(self.surface)
+        # Keep the Mac shadow entirely inside the transparent window margins.
+        shadow.setBlurRadius(16 if mac_panel else 36);shadow.setOffset(0,8 if mac_panel else 12)
         shadow.setColor(QColor(0,0,0,64));self.surface.setGraphicsEffect(shadow)
         layout=QVBoxLayout(self.surface);layout.setContentsMargins(10,10,10,10);layout.setSpacing(8)
         header=QHBoxLayout();header.setContentsMargins(6,4,6,2);header.setSpacing(8)

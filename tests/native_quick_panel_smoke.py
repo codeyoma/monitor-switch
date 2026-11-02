@@ -1,5 +1,6 @@
 """Run explicitly on macOS: verify real Cocoa windows, without monitor writes."""
 import json
+import ctypes
 import os
 from pathlib import Path
 import sys
@@ -21,12 +22,24 @@ observations=[]
 focus_probe=QWidget();focus_probe.setWindowTitle('Native panel focus check')
 
 
+def native_shadow(widget):
+    runtime=ctypes.CDLL('/usr/lib/libobjc.A.dylib')
+    runtime.sel_registerName.argtypes=[ctypes.c_char_p]
+    runtime.sel_registerName.restype=ctypes.c_void_p
+    pointer=ctypes.CFUNCTYPE(ctypes.c_void_p,ctypes.c_void_p,ctypes.c_void_p)(('objc_msgSend',runtime))
+    boolean=ctypes.CFUNCTYPE(ctypes.c_bool,ctypes.c_void_p,ctypes.c_void_p)(('objc_msgSend',runtime))
+    window=pointer(int(widget.winId()),runtime.sel_registerName(b'window'))
+    assert window, 'The panel must own a Cocoa window.'
+    return boolean(window,runtime.sel_registerName(b'hasShadow'))
+
+
 def check(stage,panel,main):
     value=dict(stage=stage,panel_visible=resident.panel.isVisible(),main_visible=window.isVisible(),
                application_state=app.applicationState().name,panel_geometry=resident.panel.geometry().getRect())
     observations.append(value);print(json.dumps(value),flush=True)
     assert value['panel_visible']==panel and value['main_visible']==main,stage
     if panel:
+        assert not native_shadow(resident.panel),stage+' must not add a second native shadow'
         assert value['application_state']=='ApplicationActive',stage+' must accept keyboard focus'
         screen=app.screenAt(resident.panel.frameGeometry().center())
         assert screen and screen.availableGeometry().contains(resident.panel.frameGeometry()),stage+' must stay on screen'

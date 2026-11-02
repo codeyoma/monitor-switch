@@ -4,12 +4,12 @@ import unittest
 from unittest.mock import patch
 from pathlib import Path
 
-from PySide6.QtCore import QEvent, QPointF, Qt
+from PySide6.QtCore import QEvent, QPointF, QRectF, Qt
 from PySide6.QtGui import QKeyEvent, QMouseEvent
 from PySide6.QtWidgets import QApplication, QSystemTrayIcon
 from monitor_switch.gui import Window
 from monitor_switch.tray import Resident
-from monitor_switch.ui import Shell, apply_theme
+from monitor_switch.ui import DARK, LIGHT, QuickPanel, Shell, apply_theme
 
 
 class PresentationTests(unittest.TestCase):
@@ -64,6 +64,38 @@ class PresentationTests(unittest.TestCase):
         self.assertFalse(panel.isVisible())
         self.assertTrue(self.resident.icon.isVisible())
         self.assertFalse(self.window.closing)
+
+    def test_mac_panel_shadow_fits_within_its_transparent_window(self):
+        with patch('monitor_switch.ui.sys.platform', 'darwin'):
+            panel = QuickPanel('mac')
+        try:
+            panel.adjustSize();panel.show();self.app.processEvents()
+            bounds = panel.surface.graphicsEffect().boundingRectFor(
+                QRectF(panel.surface.rect())).translated(panel.surface.pos())
+            self.assertTrue(QRectF(panel.rect()).contains(bounds),
+                            f'The window clips its shadow: {bounds.getRect()}')
+        finally:
+            panel.close();panel.deleteLater();self.app.processEvents()
+
+    def test_mac_panel_body_is_opaque_and_outer_corners_are_transparent(self):
+        for scheme in (LIGHT, DARK):
+            with self.subTest(scheme=scheme['surface']), \
+                    patch('monitor_switch.ui.colors', return_value=scheme), \
+                    patch('monitor_switch.ui.sys.platform', 'darwin'):
+                apply_theme(self.app)
+                panel = QuickPanel('mac')
+                try:
+                    panel.adjustSize();panel.show();self.app.processEvents()
+                    image = panel.grab().toImage()
+                    scale = image.devicePixelRatio()
+                    point = panel.surface.pos() + QPointF(160, 6).toPoint()
+                    self.assertEqual(image.pixelColor(round(point.x()*scale), round(point.y()*scale)).alpha(), 255,
+                                     'The unblurred desktop must not show through the panel body.')
+                    self.assertEqual(image.pixelColor(0, 0).alpha(), 0,
+                                     'The window outside the rounded surface stays transparent.')
+                finally:
+                    panel.close();panel.deleteLater();self.app.processEvents()
+        apply_theme(self.app)
 
     def test_tray_opening_press_cannot_dismiss_the_panel_it_opens(self):
         resident=self.resident
