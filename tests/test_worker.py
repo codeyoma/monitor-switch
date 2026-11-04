@@ -40,6 +40,6 @@ class WorkerTests(unittest.TestCase):
             native = Path(directory)/'native';native.mkdir()
             with patch('tempfile.mkdtemp', return_value=str(native)), \
                     patch('subprocess.Popen', return_value=Unresponsive()), \
-                    patch('os.killpg'):
+                    patch('os.killpg', create=True):
                 with self.assertRaisesRegex(RuntimeError, '2-second deadline'):
                     invoke({}, timeout=0.01)
