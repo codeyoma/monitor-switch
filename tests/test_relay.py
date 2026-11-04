@@ -117,15 +117,15 @@ class RelayTests(unittest.TestCase):
         self.assertEqual(self.sent,[])
 
     def test_busy_rejection_is_unavailable_without_a_native_write(self):
-        self.server.operation.acquire()
-        try:
-            with self.assertRaises(RuntimeError) as raised:
-                request(self.pairing | {'host':'127.0.0.1'},'POST','/switch',
-                        {'target':'mac','monitors':['exact-windows-lg']})
-            self.assertEqual(raised.exception.status,'unavailable')
-            self.assertEqual(self.sent,[])
-        finally:
-            self.server.operation.release()
+        from monitor_switch.switching import SwitchBusy
+        def busy(*args, **kwargs):
+            raise SwitchBusy('A switch is already in progress. No command sent.')
+        self.server.send = busy
+        with self.assertRaises(RuntimeError) as raised:
+            request(self.pairing | {'host':'127.0.0.1'},'POST','/switch',
+                    {'target':'mac','monitors':['exact-windows-lg']})
+        self.assertEqual(raised.exception.status,'unavailable')
+        self.assertEqual(self.sent,[])
 
     def test_relay_does_not_require_local_monitor_or_native_backend(self):
         config = default_config()

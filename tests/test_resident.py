@@ -101,10 +101,9 @@ class ServiceTests(unittest.TestCase):
     def test_automatic_request_switches_only_the_monitor_with_a_different_last_input(self):
         self.service.start()
         dell, lg = self.service.profiles
-        with self.service.server.operation:
-            self.service.send('windows', [dell['id']])
-            self.service.send('mac', [lg['id']])
-            result = self.service.send('windows', [dell['id'], lg['id']], automatic=True)
+        self.service.send('windows', [dell['id']])
+        self.service.send('mac', [lg['id']])
+        result = self.service.send('windows', [dell['id'], lg['id']], automatic=True)
         self.assertEqual([p['id'] for p in self.commands[-1][0]['monitors']], [lg['id']])
         self.assertEqual([r['status'] for r in result['results']], ['skipped', 'sent'])
 
@@ -170,6 +169,83 @@ class ServiceTests(unittest.TestCase):
         profiles = self.commands[-1][0]['monitors']
         self.assertEqual([p['id'] for p in profiles], [dell['id']])
         self.assertEqual(profiles[0]['windows'], 16)
+
+    def test_direct_request_cannot_overlap_a_manual_request(self):
+        self.service.start()
+        entered, release = threading.Event(), threading.Event()
+        original = self.service.runner
+        def blocked(config, target, **kwargs):
+            entered.set()
+            self.assertTrue(release.wait(3))
+            return original(config, target, **kwargs)
+        self.service.runner = blocked
+        thread = threading.Thread(target=lambda:self.service.manual('windows'))
+        thread.start()
+        try:
+            self.assertTrue(entered.wait(1))
+            with self.assertRaisesRegex(RuntimeError, 'progress'):
+                self.service.send('mac', [p['id'] for p in self.service.profiles])
+        finally:
+            release.set();thread.join(2)
+        self.assertFalse(thread.is_alive())
+        self.assertEqual([command[1] for command in self.commands], ['windows'])
+
+    def test_direct_request_blocks_http_and_usb_until_completion(self):
+        from monitor_switch.relay import request
+        self.service.start()
+        entered, release = threading.Event(), threading.Event()
+        original = self.service.runner
+        calls = []
+        def blocked(config, target, **kwargs):
+            calls.append(target)
+            if len(calls) == 1:
+                entered.set()
+                self.assertTrue(release.wait(3))
+            return original(config, target, **kwargs)
+        self.service.runner = blocked
+        identities = [p['id'] for p in self.service.profiles]
+        thread = threading.Thread(target=lambda:self.service.send('windows', identities))
+        thread.start()
+        try:
+            self.assertTrue(entered.wait(1))
+            with self.assertRaises(RuntimeError) as raised:
+                request(self.service.pairing | {'host':'127.0.0.1'}, 'POST', '/switch',
+                        {'target':'mac', 'monitors':identities})
+            self.assertEqual(raised.exception.status, 'unavailable')
+            self.service.observed_usb(dict(state='present', trigger=True))
+            self.assertEqual(calls, ['windows'])
+        finally:
+            release.set();thread.join(2)
+        self.assertFalse(thread.is_alive())
+
+    def test_shutdown_waits_for_a_direct_request_and_rejects_new_writes(self):
+        self.service.start()
+        entered, release, stopped = threading.Event(), threading.Event(), threading.Event()
+        original = self.service.runner
+        def blocked(config, target, **kwargs):
+            entered.set()
+            self.assertTrue(release.wait(3))
+            return original(config, target, **kwargs)
+        self.service.runner = blocked
+        identities = [p['id'] for p in self.service.profiles]
+        request_thread = threading.Thread(target=lambda:self.service.send('windows', identities))
+        request_thread.start()
+        def stop():
+            self.service.stop();stopped.set()
+        stop_thread = threading.Thread(target=stop)
+        try:
+            self.assertTrue(entered.wait(1))
+            stop_thread.start()
+            self.assertTrue(self.service.stopping.wait(1))
+            self.assertFalse(stopped.wait(0.8), 'Shutdown must wait for the admitted native request.')
+            result = self.service.send('mac', identities)
+            self.assertTrue(all(row['status']=='unavailable' for row in result['results']))
+        finally:
+            release.set();request_thread.join(2)
+            if stop_thread.ident is not None:stop_thread.join(2)
+        self.assertFalse(request_thread.is_alive())
+        self.assertFalse(stop_thread.is_alive())
+        self.assertTrue(stopped.is_set())
 
 
 try:

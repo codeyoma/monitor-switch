@@ -9,6 +9,7 @@ import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from .tailscale import relay_host, tailscale_host, windows_peer_hosts
+from .switching import SwitchBusy
 
 MAX_BODY = 4096
 
@@ -152,7 +153,6 @@ class RelayServer(ThreadingHTTPServer):
     def __init__(self, address, pairing, send):
         self.pairing, self.send = dict(pairing), send
         self.epoch = secrets.token_hex(16)
-        self.operation = threading.Lock()
         self.nonce_lock, self.nonces = threading.Lock(), {}
         self.slots = threading.BoundedSemaphore(8)
         self.sign_reply = response_signature
@@ -263,24 +263,16 @@ class RelayHandler(BaseHTTPRequestHandler):
                 or not set(data['monitors']) <= {profile['id'] for profile in pairing['monitors']}):
             self.reply(400, {'error': 'Only configured monitor identities and the mac/windows destination are accepted.'})
             return
-        if not self.server.operation.acquire(blocking=False):
-            self.reply(409, {'error': 'A switch is already in progress. No command sent.'})
-            return
         try:
-            try:
-                result = self.server.send(data['target'], data['monitors'], automatic=data.get('automatic',False))
-                if (not isinstance(result.get('results'), list)
-                        or len(result['results']) != len(data['monitors'])
-                        or {r.get('id') for r in result['results']} != set(data['monitors'])
-                        or any(r.get('status') not in ('sent', 'uncertain', 'unavailable', 'skipped') for r in result['results'])):
-                    raise RuntimeError('Invalid native result.')
-            except Exception:
-                result = {'results': [dict(id=identity, status='uncertain', error='Native worker failed; no automatic retry.')
-                                      for identity in data['monitors']]}
+            result = self.server.send(data['target'], data['monitors'], automatic=data.get('automatic',False))
             # Never expose the pairing secret or accept an arbitrary feature/value.
             public = {'results': [{name: row[name] for name in ('id', 'status', 'error', 'message', 'write_attempted') if name in row}
                                   for row in result['results']]}
-            public.update(monitor_id=pairing['monitor_id'], physical_switch_confirmed=False)
-            self.reply(200, public)
-        finally:
-            self.server.operation.release()
+        except SwitchBusy as exc:
+            self.reply(409, {'error':str(exc)})
+            return
+        except Exception:
+            public = {'results':[dict(id=identity, status='uncertain',
+                error='Native worker failed; no automatic retry.') for identity in data['monitors']]}
+        public.update(monitor_id=pairing['monitor_id'], physical_switch_confirmed=False)
+        self.reply(200, public)

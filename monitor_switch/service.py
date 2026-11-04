@@ -8,7 +8,7 @@ from pathlib import Path
 from .relay import RelayServer, private_host, validate_pairing
 from .tailscale import local_hosts, tailscale_host
 from .startup import data_directory, write_json
-from .usb import AutomaticRequests
+from .switching import SwitchBatch, SwitchBusy
 from .usb_events import USBEventWatcher
 
 
@@ -31,8 +31,7 @@ class RelayService:
         self.server = self.server_thread = self.watcher = self.watcher_thread = None
         self.stopping = threading.Event()
         self.auto_enabled = threading.Event()
-        self.automatic_requests = AutomaticRequests()
-        self.sent_inputs = {}
+        self.batch = None
         self.state_path = self.data/'relay-server.json'
         self.mapping_path = self.data/'relay-monitors.json'
 
@@ -41,10 +40,6 @@ class RelayService:
 
     def start(self):
         self.stopping.clear()
-        # This is a history of accepted app commands, not a physical input read.
-        # Never restore it from disk or infer it from the USB startup baseline.
-        self.sent_inputs.clear()
-        self.automatic_requests = AutomaticRequests()
         self.state = json.loads(self.state_path.read_text(encoding='utf-8')) if self.state_path.exists() else {}
         if self.mapping_path.exists():
             self.profiles = json.loads(self.mapping_path.read_text(encoding='utf-8'))['monitors']
@@ -67,6 +62,8 @@ class RelayService:
                             monitors=self.profiles, monitor_id=next(p['id'] for p in self.profiles if p['role']=='lg'),
                             server_id=self.state['server_id'], key=self.state['key'])
         validate_pairing(self.pairing)
+        # Recreate process-local accepted-command history on every start.
+        self.batch = SwitchBatch(self.profiles, self._run_native, self.emit, stopping=self.stopping)
         self.server = RelayServer(self.address, self.pairing, self.send)
         try:
             write_json(self.state_path, self.state)
@@ -92,14 +89,11 @@ class RelayService:
         if (self.stopping.is_set() or not result.get('trigger') or not self.auto_enabled.is_set()
                 or not self.watcher.current(result)):
             return
-        if not self.server.operation.acquire(blocking=False):
-            self.emit('message', message='A switch is in progress. USB action skipped; use manual switching.')
-            return
         try:
-            if not self.stopping.is_set() and self.auto_enabled.is_set() and self.watcher.current(result):
-                self.send('windows', [p['id'] for p in self.profiles], automatic=True)
-        finally:
-            self.server.operation.release()
+            self.batch.send('windows', [p['id'] for p in self.profiles], automatic=True,
+                            eligible=lambda:self.auto_enabled.is_set() and self.watcher.current(result))
+        except SwitchBusy:
+            self.emit('message', message='A switch is in progress. USB action skipped; use manual switching.')
 
     def set_auto(self, enabled):
         if self.stopping.is_set():
@@ -115,72 +109,23 @@ class RelayService:
         self.emit('automatic', enabled=bool(enabled))
 
     def send(self, target, identities, automatic=False):
-        # Callers hold server.operation for the complete batch, including deduplication.
-        requested = [p for p in self.profiles if p['id'] in identities]
-        if self.stopping.is_set():
-            return {'results':[dict(id=p['id'],status='unavailable',write_attempted=False,error='Helper is stopping.')
-                               for p in requested]}
-        if not self.automatic_requests.allow(target, identities, automatic):
-            result = {'results':[dict(id=p['id'],status='skipped',write_attempted=False,
-                                      error='Duplicate USB arrival; no command sent.') for p in requested]}
-            self.emit('result', target=target, result=result)
-            return result
-        skipped, pending = {}, []
-        for profile in requested:
-            if automatic and self.sent_inputs.get(profile['id']) == (profile['mode'], profile[target]):
-                skipped[profile['id']] = dict(id=profile['id'], label=profile['label'], code=profile[target],
-                    status='skipped', write_attempted=False, physical_switch_confirmed=False,
-                    message='Same input as the last accepted app command; no input command sent.')
-            else:
-                pending.append(profile)
-        if not pending:
-            result = {'results':[skipped[p['id']] for p in requested]}
-            self.emit('result', target=target, result=result)
-            return result
-        # An attempted change can take effect even if the worker fails. Forget
-        # the previous command before sending; only clean sent results replace it.
-        for profile in pending:
-            self.sent_inputs.pop(profile['id'], None)
-        self.emit('busy', target=target)
-        try:
-            runner = self.runner
-            if runner is None:
-                from scripts.windows_lg_switch_test import run_test
-                runner = run_test
-            result = runner({'monitors':pending}, target, timeout=15,
-                            diagnostics=self.data/'diagnostics',
-                            reporter=lambda message:self.emit('message',message=message))
-        except Exception as exc:
-            result = {'error':str(exc)}
-        if not isinstance(result, dict):
-            result = {'error':'Invalid native worker report.'}
-        rows = result.get('results')
-        valid = (isinstance(rows,list) and len(rows) == len(pending)
-                 and all(isinstance(r,dict) and isinstance(r.get('id'),str)
-                         and r.get('status') in ('sent','uncertain','unavailable','skipped') for r in rows)
-                 and {r.get('id') for r in rows} == {p['id'] for p in pending})
-        if not valid:
-            rows = [dict(id=p['id'],status='uncertain',write_attempted=None,
-                         error=result.get('error','Invalid or incomplete native worker report.')) for p in pending]
-        by_id = {row['id']:row for row in rows}
-        for profile in pending:
-            row = by_id[profile['id']]
-            if (row['status'] == 'sent' and row.get('write_attempted') is True and not row.get('error')
-                    and not result.get('error') and not result.get('worker_warning')):
-                self.sent_inputs[profile['id']] = (profile['mode'], profile[target])
-        result['results'] = [skipped[p['id']] if p['id'] in skipped else by_id[p['id']] for p in requested]
-        self.emit('result', target=target, result=result)
-        return result
+        return self.batch.send(target, identities, automatic)
+
+    def _run_native(self, monitors, target):
+        runner = self.runner
+        if runner is None:
+            from scripts.windows_lg_switch_test import run_test
+            runner = run_test
+        return runner({'monitors':monitors}, target, timeout=15,
+                      diagnostics=self.data/'diagnostics',
+                      reporter=lambda message:self.emit('message', message=message))
 
     def manual(self, target):
         if target not in ('mac','windows'):
             raise ValueError('Invalid destination.')
-        if self.stopping.is_set() or not self.server.operation.acquire(blocking=False):
-            raise RuntimeError('A switch is already in progress, or the helper is stopping.')
-        try:
-            return self.send(target, [p['id'] for p in self.profiles])
-        finally:
-            self.server.operation.release()
+        if self.stopping.is_set():
+            raise RuntimeError('The helper is stopping. No command sent.')
+        return self.send(target, [p['id'] for p in self.profiles])
 
     def export_pairing(self, path):
         hosts = network_hosts()
@@ -202,9 +147,7 @@ class RelayService:
             self.server.server_close()
         if self.watcher_thread:
             self.watcher_thread.join(20)
-        if self.server:
-            acquired = self.server.operation.acquire(timeout=20)
-            if acquired:
-                self.server.operation.release()
-            if not acquired or (self.watcher_thread and self.watcher_thread.is_alive()):
-                raise RuntimeError('A worker is still stopping. Please wait before quitting.')
+        if self.batch:
+            self.batch.stop()
+        if self.watcher_thread and self.watcher_thread.is_alive():
+            raise RuntimeError('A worker is still stopping. Please wait before quitting.')
