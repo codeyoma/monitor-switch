@@ -6,17 +6,26 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 
+def observed(event):
+    if event['kind'] == 'usb':
+        print('USB:', event['result']['state'], event['result'].get('message',''))
+    elif event['kind'] == 'result':
+        report = event['result']
+        for row in report.get('results', []):
+            print(f'{row.get("label", row["id"])}: {row["status"]}',
+                  row.get('message') or row.get('error') or '')
+        for field in ('error', 'worker_warning'):
+            if report.get(field):
+                print(report[field])
+    elif event.get('message'):
+        print(event['message'])
+
+
 def main():
     if sys.platform != 'win32':
         print('Run this helper on the Windows NVIDIA PC.')
         return 2
     from monitor_switch.service import RelayService
-
-    def observed(event):
-        if event['kind'] == 'usb':
-            print('USB:', event['result']['state'], event['result'].get('message',''))
-        elif event.get('message'):
-            print(event['message'])
 
     service = RelayService(ROOT, observed).start()
     try:

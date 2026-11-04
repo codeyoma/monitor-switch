@@ -342,6 +342,10 @@ class ResidentTests(unittest.TestCase):
             self.assertTrue(window.usb_toggle.isChecked())
             self.assertTrue(resident.automatic.isChecked())
             self.assertIn('Cannot save USB preference',window.log.toPlainText())
+            window.observed(dict(kind='result',target='mac',result={
+                'results':[dict(id='lg-id',status='uncertain',write_attempted=True)],
+                'error':'Worker did not exit within the additional 2-second deadline.'}))
+            self.assertIn('2-second deadline',window.log.toPlainText())
             window.show();window.close()
             self.assertFalse(window.isVisible())
         finally:

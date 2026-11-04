@@ -244,6 +244,10 @@ class WindowsWindow(QMainWindow):
             for row in rows:
                 self.log.appendPlainText(profiles.get(row['id'],row['id'])+': '+row['status']+
                                          (' · '+(row.get('message') or row.get('error')) if row.get('message') or row.get('error') else ''))
+            for field in ('error', 'worker_warning'):
+                if event['result'].get(field):
+                    self.log.appendPlainText(event['result'][field])
+                    self.shell.message('전환 결과가 확실하지 않습니다. 활동 기록을 확인하세요.',True)
         elif event.get('message'):
             self.log.appendPlainText(event['message'])
         self.refresh()

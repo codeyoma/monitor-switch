@@ -35,8 +35,8 @@ def main():
             report_failure(exc)
             return 1
     if args.nvidia_worker:
-        from scripts.windows_lg_switch_test import native_worker_main
-        native_worker_main(*args.nvidia_worker)
+        from monitor_switch.nvidia_worker import worker_main
+        worker_main(*args.nvidia_worker)
         return 0
     if args.worker:
         from monitor_switch.worker import worker_main

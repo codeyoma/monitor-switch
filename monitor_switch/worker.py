@@ -1,10 +1,5 @@
 """Isolate native drivers from the UI so a blocked DDC call has a deadline."""
 import json
-import os
-import signal
-import subprocess
-import sys
-import tempfile
 import copy
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
@@ -82,31 +77,14 @@ def worker_main(request_path, result_path):
 
 
 def invoke(request, timeout=30, command=None):
-    """File IPC also works in PyInstaller --windowed builds with no stdout."""
-    if command is None:
-        command = [sys.executable] if getattr(sys, 'frozen', False) else [
-            sys.executable, str(Path(__file__).resolve().parent.parent / 'app.py')]
-    with tempfile.TemporaryDirectory(prefix='monitor-switch-') as directory:
-        request_path = Path(directory) / 'request.json'
-        result_path = Path(directory) / 'result.json'
-        request_path.write_text(json.dumps(request), encoding='utf-8')
-        options = {'start_new_session': True} if sys.platform != 'win32' else {
-            'creationflags': subprocess.CREATE_NO_WINDOW}
-        process = subprocess.Popen([*command, '--worker', str(request_path), str(result_path)],
-                                   stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
-                                   stderr=subprocess.DEVNULL, **options)
-        try:
-            process.wait(timeout=timeout)
-        except subprocess.TimeoutExpired as exc:
-            if sys.platform == 'win32':
-                process.kill()
-            else:
-                os.killpg(process.pid, signal.SIGKILL)
-            process.wait()
-            if request.get('action') == 'connect-relay':
-                raise RuntimeError('Windows pairing timed out. No input switch was requested.') from exc
-            raise RuntimeError('DDC operation timed out. Input state is unknown. '
-                               'No automatic retry; check both displays.') from exc
-        if process.returncode or not result_path.exists():
-            raise RuntimeError(f'DDC worker exited unexpectedly ({process.returncode}).')
-        return json.loads(result_path.read_text(encoding='utf-8'))
+    """Use the same bounded child lifetime as the NVIDIA execution adapter."""
+    from .child_process import supervise
+    with supervise(request, kind='ddc', timeout=timeout, command=command) as child:
+        if child.failure:
+            if child.timed_out and request.get('action') == 'connect-relay':
+                raise RuntimeError('Windows pairing timed out. No input switch was requested.')
+            if child.timed_out:
+                raise RuntimeError('DDC operation timed out. Input state is unknown. '
+                                   'No automatic retry; check both displays. '+child.failure)
+            raise RuntimeError(child.failure)
+        return child.payload

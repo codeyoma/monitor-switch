@@ -1,5 +1,9 @@
 import sys
 import unittest
+import subprocess
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
 from monitor_switch.worker import invoke
 from test_core import configured
 
@@ -21,3 +25,21 @@ class WorkerTests(unittest.TestCase):
     def test_stuck_child_is_terminated_at_deadline(self):
         with self.assertRaisesRegex(RuntimeError, 'timed out'):
             invoke({}, timeout=0.1, command=[sys.executable, '-c', 'import time; time.sleep(60)'])
+
+    def test_failed_termination_does_not_wait_without_another_deadline(self):
+        class Unresponsive:
+            pid = 2147483646
+            def wait(self, timeout=None):
+                if timeout is None:raise AssertionError('Unbounded wait after termination.')
+                raise subprocess.TimeoutExpired('driver', timeout)
+            def communicate(self, timeout):
+                raise subprocess.TimeoutExpired('driver', timeout)
+            def kill(self):pass
+            def poll(self):return None
+        with tempfile.TemporaryDirectory() as directory:
+            native = Path(directory)/'native';native.mkdir()
+            with patch('tempfile.mkdtemp', return_value=str(native)), \
+                    patch('subprocess.Popen', return_value=Unresponsive()), \
+                    patch('os.killpg'):
+                with self.assertRaisesRegex(RuntimeError, '2-second deadline'):
+                    invoke({}, timeout=0.01)

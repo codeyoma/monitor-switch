@@ -114,11 +114,13 @@ class RelayService:
     def _run_native(self, monitors, target):
         runner = self.runner
         if runner is None:
-            from scripts.windows_lg_switch_test import run_test
-            runner = run_test
-        return runner({'monitors':monitors}, target, timeout=15,
-                      diagnostics=self.data/'diagnostics',
-                      reporter=lambda message:self.emit('message', message=message))
+            from .nvidia_worker import run_switch
+            runner = run_switch
+        result = runner({'monitors':monitors}, target, timeout=15,
+                        diagnostics=self.data/'diagnostics')
+        if isinstance(result, dict) and result.get('report_path'):
+            self.emit('message', message='Report: '+result['report_path'])
+        return result
 
     def manual(self, target):
         if target not in ('mac','windows'):
