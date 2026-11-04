@@ -4,12 +4,13 @@ import unittest
 from unittest.mock import patch
 from pathlib import Path
 
-from PySide6.QtCore import QEvent, QPointF, QRectF, Qt
+from PySide6.QtCore import QEvent, QPointF, QRect, QRectF, Qt
 from PySide6.QtGui import QKeyEvent, QMouseEvent
 from PySide6.QtWidgets import QApplication, QSystemTrayIcon
 from monitor_switch.gui import Window
 from monitor_switch.tray import Resident
-from monitor_switch.ui import DARK, LIGHT, QuickPanel, Shell, apply_theme
+from monitor_switch.ui import DARK, LIGHT, Shell, apply_theme
+from monitor_switch.quick_panel import QuickPanel
 
 
 class PresentationTests(unittest.TestCase):
@@ -66,7 +67,7 @@ class PresentationTests(unittest.TestCase):
         self.assertFalse(self.window.closing)
 
     def test_mac_panel_shadow_fits_within_its_transparent_window(self):
-        with patch('monitor_switch.ui.sys.platform', 'darwin'):
+        with patch('monitor_switch.quick_panel.sys.platform', 'darwin'):
             panel = QuickPanel('mac')
         try:
             panel.adjustSize();panel.show();self.app.processEvents()
@@ -81,7 +82,7 @@ class PresentationTests(unittest.TestCase):
         for scheme in (LIGHT, DARK):
             with self.subTest(scheme=scheme['surface']), \
                     patch('monitor_switch.ui.colors', return_value=scheme), \
-                    patch('monitor_switch.ui.sys.platform', 'darwin'):
+                    patch('monitor_switch.quick_panel.sys.platform', 'darwin'):
                 apply_theme(self.app)
                 panel = QuickPanel('mac')
                 try:
@@ -124,12 +125,42 @@ class PresentationTests(unittest.TestCase):
                     'Repeated status activation must not toggle the panel shut.')
 
     def test_mac_first_click_immediately_after_dismissal_opens_panel(self):
-        import time
-        self.resident.panel.last_hidden=time.monotonic()
+        self.resident.show_panel()
+        self.resident.panel.dismiss()
         with patch('monitor_switch.tray.sys.platform','darwin'):
             self.resident.icon.activated.emit(QSystemTrayIcon.ActivationReason.Trigger)
             self.app.processEvents()
             self.assertTrue(self.resident.panel.isVisible())
+
+    def test_panel_owns_mac_gestures_and_hides_settings(self):
+        panel = self.resident.panel
+        self.window.show()
+        with patch('monitor_switch.tray.sys.platform', 'darwin'):
+            for reason in (QSystemTrayIcon.ActivationReason.Context,
+                           QSystemTrayIcon.ActivationReason.Trigger,
+                           QSystemTrayIcon.ActivationReason.Unknown):
+                panel.activate_tray(reason, QRect(50, 20, 20, 20))
+                self.app.processEvents()
+                self.assertTrue(panel.isVisible())
+                self.assertFalse(self.window.isVisible())
+
+    def test_panel_owns_windows_context_requests_and_same_click_guard(self):
+        with patch('monitor_switch.quick_panel.sys.platform', 'win32'):
+            panel = QuickPanel('windows')
+            contexts = []
+            panel.context_requested.connect(contexts.append)
+            anchor = QRect(50, 20, 20, 20)
+            try:
+                panel.activate_tray(QSystemTrayIcon.ActivationReason.Trigger, anchor)
+                self.app.processEvents()
+                self.assertTrue(panel.isVisible())
+                panel.activate_tray(QSystemTrayIcon.ActivationReason.Context, anchor)
+                self.assertFalse(panel.isVisible())
+                self.assertEqual(len(contexts), 1)
+                panel.activate_tray(QSystemTrayIcon.ActivationReason.Trigger, anchor)
+                self.assertFalse(panel.isVisible(), 'The native closing click must not reopen the panel.')
+            finally:
+                panel.dismiss();panel.deleteLater();self.app.processEvents()
 
     def test_windows_unknown_activation_does_not_open_panel(self):
         with patch('monitor_switch.tray.sys.platform','win32'):

@@ -13,7 +13,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from PySide6.QtCore import QRect, QTimer, Qt
 from PySide6.QtWidgets import QApplication
-from monitor_switch.ui import QuickPanel, apply_theme
+from monitor_switch.ui import apply_theme
+from monitor_switch.quick_panel import QuickPanel
 
 app = QApplication([])
 app.setQuitOnLastWindowClosed(False)
@@ -52,7 +53,8 @@ def check():
         observations.append(dict(class_style=hex(style), system_shadow=False))
         panel.hide()
         if len(observations) < 3:
-            QTimer.singleShot(50, reopen)
+            # Reopen after the panel's 150 ms same-click suppression window.
+            QTimer.singleShot(200, reopen)
         else:
             print(json.dumps(dict(passed=True, openings=observations, monitor_commands_sent=0)))
             app.exit(0)

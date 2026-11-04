@@ -9,7 +9,8 @@ from unittest.mock import patch
 os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication
-from monitor_switch.ui import QuickPanel, apply_theme
+from monitor_switch.ui import apply_theme
+from monitor_switch.quick_panel import QuickPanel
 
 
 class WindowsPanelTests(unittest.TestCase):
@@ -19,7 +20,7 @@ class WindowsPanelTests(unittest.TestCase):
         apply_theme(cls.app)
 
     def test_windows_translucent_popup_disables_the_extra_system_shadow(self):
-        with patch('monitor_switch.ui.sys.platform', 'win32'):
+        with patch('monitor_switch.quick_panel.sys.platform', 'win32'):
             panel = QuickPanel('windows')
         try:
             self.assertEqual(panel.windowType(), Qt.WindowType.Popup)

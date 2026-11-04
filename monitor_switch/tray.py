@@ -3,7 +3,6 @@ import hashlib
 import os
 import sys
 import tempfile
-import time
 from pathlib import Path
 
 from PySide6.QtCore import QObject, QLockFile, QThread, QTimer, Signal, Qt, QUrl, QRect, QSize
@@ -13,7 +12,9 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
     QLabel, QPushButton, QCheckBox, QPlainTextEdit, QFileDialog, QMessageBox, QMenu, QSystemTrayIcon, QGroupBox, QFormLayout)
 
 from .startup import LoginStartup, data_directory, login_command
-from .ui import ASSETS, Shell, QuickPanel, Toggle, apply_theme, colors, icon, input_name, label, module, divider, switch_feedback
+from .ui import ASSETS, Shell, Toggle, apply_theme, colors, icon, input_name, label, module, divider, switch_feedback
+
+from .quick_panel import QuickPanel
 
 ROOT = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent.parent))
 
@@ -290,7 +291,9 @@ class Resident(QObject):
         self.icon.setToolTip('Monitor Switch')
         self.panel=QuickPanel('mac' if sys.platform=='darwin' else 'windows',window)
         self.panel.switch_requested.connect(window.switch_to)
-        self.panel.settings_requested.connect(self.show_window)
+        self.panel.settings_requested.connect(self._show_window)
+        self.panel.about_to_show.connect(self.refresh)
+        self.panel.context_requested.connect(self.show_context)
         self.panel.automatic_requested.connect(lambda checked:window.usb_toggle.setChecked(checked))
         self.panel.more_requested.connect(self.show_more)
         window.shell.quick_button.clicked.connect(self.toggle_panel)
@@ -340,51 +343,33 @@ class Resident(QObject):
             from .update_ui import UpdateController
             self.updater = UpdateController(self)
 
+    def _panel_anchor(self):
+        anchor=self.icon.geometry()
+        return anchor if not anchor.isEmpty() else QRect(QCursor.pos(),QSize(1,1))
+
     def activated(self,reason):
-        if sys.platform=='darwin':
-            if reason in (QSystemTrayIcon.ActivationReason.Trigger,
-                          QSystemTrayIcon.ActivationReason.DoubleClick,
-                          QSystemTrayIcon.ActivationReason.Context,
-                          QSystemTrayIcon.ActivationReason.Unknown):
-                # Qt 6.12 reports Unknown when macOS 27 delivers a status-button
-                # gesture without a mouse NSEvent. It is still an activation.
-                # Both mouse buttons open the same panel. Repeated native
-                # activations must not toggle an already open panel shut.
-                self.show_panel()
-            return
-        if reason==QSystemTrayIcon.ActivationReason.Context:
-            self.panel.hide();self.refresh();self.menu.popup(QCursor.pos())
-        elif reason in (QSystemTrayIcon.ActivationReason.Trigger,QSystemTrayIcon.ActivationReason.DoubleClick):
-            self.toggle_panel()
+        self.panel.activate_tray(reason,self._panel_anchor())
 
     def toggle_panel(self):
-        if self.panel.isVisible():
-            self.panel.hide();return
-        self.show_panel()
+        self.panel.toggle(self._panel_anchor())
 
     def show_panel(self):
-        if sys.platform=='darwin':
-            self.window.hide()
-        elif self.panel.isVisible():
-            return
-        if sys.platform!='darwin' and time.monotonic()-self.panel.last_hidden<0.15:
-            return
-        self.refresh()
-        anchor=self.icon.geometry()
-        if anchor.isEmpty():
-            anchor=QRect(QCursor.pos(),QSize(1,1))
-        self.panel.show_at(anchor)
+        self.panel.show_at(self._panel_anchor())
+
+    def show_context(self,point):
+        self.refresh();self.menu.popup(point)
 
     def show_more(self,point):
         self.refresh();self.more_menu.popup(point)
 
     def show_window(self):
-        self.panel.hide()
+        self.panel.open_settings()
+
+    def _show_window(self):
         self.window.showNormal();self.window.raise_();self.window.activateWindow()
 
     def show_default(self):
-        if sys.platform=='darwin':self.show_panel()
-        else:self.show_window()
+        self.panel.reopen(self._panel_anchor())
 
     def refresh(self):
         w = self.window
@@ -487,14 +472,14 @@ class Resident(QObject):
 
     def finish_quit(self):
         self.quitting = True
-        self.panel.hide()
+        self.panel.dismiss()
         self.icon.hide()
         QApplication.instance().quit()
 
     def cleanup(self):
         if self.updater:
             self.updater.close()
-        self.panel.hide()
+        self.panel.dismiss()
         self.icon.hide()
         w = self.window
         if isinstance(w,WindowsWindow):
